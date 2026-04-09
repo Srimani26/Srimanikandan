@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Srimanikandan K — AI Automation Engineer</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#050810; --bg2:#080d1a; --bg3:#0c1225;
+  --surface:#0f1830; --surface2:#162040;
+  --border:rgba(0,200,255,0.12); --border2:rgba(0,200,255,0.28);
+  --cyan:#00c8ff; --cyan2:#00eaff;
+  --green:#00ffb3; --orange:#ff7b3a; --purple:#a855f7;
+  --text:#e8eeff; --text2:#8899bb; --text3:#4a5880;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+
+/* CURSOR */
+#cur{position:fixed;width:12px;height:12px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:screen;top:-20px;left:-20px}
+#cur-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(0,200,255,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);top:-20px;left:-20px;transition:width .2s,height .2s}
+
+/* GRID BG */
+body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:20px 60px;background:rgba(5,8,16,.94);backdrop-filter:blur(14px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Space Mono',monospace;font-size:13px;color:var(--cyan);letter-spacing:3px}
+.nav-links{display:flex;gap:36px}
+.nav-links a{font-family:'Space Mono',monospace;font-size:11px;color:var(--text2);text-decoration:none;letter-spacing:2px;text-transform:uppercase;transition:color .2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--cyan);transition:width .3s}
+.nav-links a:hover{color:var(--cyan)}.nav-links a:hover::after{width:100%}
+
+/* SCROLL DOTS */
+.scroll-indicator{position:fixed;right:28px;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px;z-index:150}
+.sdot{width:7px;height:7px;border-radius:50%;background:var(--text3);cursor:pointer;transition:all .3s}
+.sdot.active{background:var(--cyan);box-shadow:0 0 10px rgba(0,200,255,.7);transform:scale(1.5)}
+
+/* SECTIONS */
+section{position:relative;z-index:2;padding:100px 60px}
+.sec-header{display:flex;align-items:center;gap:16px;margin-bottom:60px}
+.sec-tag{font-family:'Space Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:4px;text-transform:uppercase}
+.sec-line{width:48px;height:1px;background:var(--border2)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:120px 60px 60px;overflow:hidden}
+.orb{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.orb1{width:600px;height:600px;background:radial-gradient(circle,rgba(0,200,255,.08) 0%,transparent 70%);top:-120px;right:-80px;animation:drift 9s ease-in-out infinite alternate}
+.orb2{width:380px;height:380px;background:radial-gradient(circle,rgba(168,85,247,.06) 0%,transparent 70%);bottom:0;left:-80px;animation:drift 12s ease-in-out infinite alternate-reverse}
+@keyframes drift{from{transform:translate(0,0) scale(1)}to{transform:translate(28px,18px) scale(1.06)}}
+.hero-content{max-width:900px;position:relative;z-index:2}
+.hero-tag{display:inline-flex;align-items:center;gap:10px;font-family:'Space Mono',monospace;font-size:11px;color:var(--green);letter-spacing:3px;text-transform:uppercase;margin-bottom:28px;padding:8px 16px;border:1px solid rgba(0,255,179,.2);border-radius:2px;background:rgba(0,255,179,.04);opacity:0;animation:fadeup .6s ease forwards .2s}
+.hero-tag::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease infinite}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
+.hero-name{font-size:clamp(52px,8vw,96px);font-weight:800;line-height:.9;letter-spacing:-3px;margin-bottom:20px;opacity:0;animation:fadeup .7s ease forwards .35s}
+.hero-name span{display:block;background:linear-gradient(135deg,#fff 0%,var(--cyan) 50%,var(--purple) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.hero-role{font-family:'Space Mono',monospace;font-size:clamp(12px,1.8vw,16px);color:var(--text2);letter-spacing:2px;margin-bottom:24px;opacity:0;animation:fadeup .7s ease forwards .5s}
+.hero-role .hl{color:var(--cyan)}
+.hero-desc{font-size:18px;line-height:1.8;color:var(--text2);max-width:560px;margin-bottom:44px;opacity:0;animation:fadeup .7s ease forwards .62s}
+.hero-stats{display:flex;gap:44px;margin-bottom:44px;opacity:0;animation:fadeup .7s ease forwards .74s}
+.stat-num{font-family:'Space Mono',monospace;font-size:38px;font-weight:700;color:var(--cyan);letter-spacing:-1px;display:block}
+.stat-label{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-top:4px;display:block}
+.hero-cta{display:flex;gap:16px;opacity:0;animation:fadeup .7s ease forwards .86s}
+@keyframes fadeup{from{opacity:0;transform:translateY(22px)}to{opacity:1;transform:translateY(0)}}
+.btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 28px;border-radius:2px;text-decoration:none;cursor:pointer;transition:all .25s;display:inline-block;border:none}
+.btn-p{background:var(--cyan);color:var(--bg);border:1px solid var(--cyan);font-weight:700}
+.btn-p:hover{background:transparent;color:var(--cyan);box-shadow:0 0 22px rgba(0,200,255,.3)}
+.btn-g{background:transparent;color:var(--text2);border:1px solid var(--border2)}
+.btn-g:hover{border-color:var(--cyan);color:var(--cyan)}
+
+/* ABOUT */
+.about-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:center}
+.about-text p{font-size:17px;line-height:1.85;color:var(--text2);margin-bottom:18px}
+.about-text p strong{color:var(--cyan)}
+.info-card{background:var(--surface);border:1px solid var(--border);padding:32px;border-radius:4px;position:relative;overflow:hidden}
+.info-card::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+.info-row{display:flex;align-items:flex-start;gap:16px;padding:18px 0;border-bottom:1px solid var(--border)}
+.info-row:last-child{border-bottom:none;padding-bottom:0}
+.info-row:first-child{padding-top:0}
+.info-icon{width:36px;height:36px;background:rgba(0,200,255,.07);border:1px solid var(--border2);border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0}
+.info-lbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.info-val{font-size:15px;color:var(--text);font-weight:600}
+.info-sub{font-size:13px;color:var(--text2);margin-top:2px}
+
+/* SKILLS */
+.skills-wrap{background:var(--bg2)}
+.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.skill-card{background:var(--surface);padding:30px 26px;border:1px solid var(--border);transition:background .3s,border-color .3s;cursor:default}
+.skill-card:hover{background:var(--surface2);border-color:var(--border2)}
+.sk-icon{font-size:28px;margin-bottom:14px}
+.sk-name{font-size:16px;font-weight:700;margin-bottom:8px}
+.sk-desc{font-family:'Space Mono',monospace;font-size:11px;color:var(--text3);line-height:1.8}
+.sk-bar{margin-top:18px;height:2px;background:var(--border);border-radius:2px;overflow:hidden}
+.sk-fill{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));transform:scaleX(0);transform-origin:left;transition:transform 1s ease .2s}
+.skill-card.vis .sk-fill{transform:scaleX(1)}
+
+/* PROJECTS */
+.proj-grid{display:grid;gap:28px}
+.proj-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
+.proj-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.5),0 0 32px rgba(0,200,255,.07)}
+.proj-visual{width:100%;height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.proj-body{padding:36px}
+.proj-meta{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap}
+.proj-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px}
+.badges{display:flex;flex-wrap:wrap;gap:7px}
+.badge{font-family:'Space Mono',monospace;font-size:9px;color:var(--cyan);letter-spacing:1px;padding:4px 10px;border:1px solid rgba(0,200,255,.2);border-radius:2px;background:rgba(0,200,255,.05);text-transform:uppercase}
+.badge.g{color:var(--green);border-color:rgba(0,255,179,.2);background:rgba(0,255,179,.05)}
+.badge.o{color:var(--orange);border-color:rgba(255,123,58,.2);background:rgba(255,123,58,.05)}
+.proj-title{font-size:26px;font-weight:800;letter-spacing:-1px;margin-bottom:6px}
+.proj-sub{font-family:'Space Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:2px;margin-bottom:18px}
+.proj-desc{font-size:15px;line-height:1.78;color:var(--text2);margin-bottom:28px}
+.metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:28px}
+.metric{background:var(--bg3);padding:18px 12px;text-align:center}
+.m-val{font-family:'Space Mono',monospace;font-size:18px;font-weight:700;color:var(--cyan);display:block;margin-bottom:4px}
+.m-val.g{color:var(--green)}.m-val.o{color:var(--orange)}
+.m-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;line-height:1.4}
+.stack{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
+.stk{font-family:'Space Mono',monospace;font-size:10px;color:var(--text2);letter-spacing:1px;padding:5px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:2px}
+.view-btn{width:100%;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 24px;border-radius:2px;background:transparent;color:var(--cyan);border:1px solid var(--border2);cursor:pointer;transition:all .25s;display:block}
+.view-btn:hover{background:rgba(0,200,255,.08);box-shadow:0 0 20px rgba(0,200,255,.15)}
+
+/* EXPERIENCE */
+.exp-wrap{background:var(--bg2)}
+.exp-timeline{position:relative;padding-left:32px}
+.exp-timeline::before{content:'';position:absolute;left:0;top:10px;bottom:0;width:1px;background:linear-gradient(180deg,var(--cyan),transparent)}
+.exp-item{position:relative;margin-bottom:48px;opacity:0;transform:translateX(-18px);transition:opacity .5s,transform .5s}
+.exp-item.vis{opacity:1;transform:translateX(0)}
+.exp-item::before{content:'';position:absolute;left:-36px;top:8px;width:10px;height:10px;border-radius:50%;background:var(--bg);border:2px solid var(--border2)}
+.exp-item.current::before{background:var(--cyan);border-color:var(--cyan);box-shadow:0 0 14px rgba(0,200,255,.6)}
+.exp-date{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;margin-bottom:7px}
+.exp-role{font-size:20px;font-weight:700;margin-bottom:4px}
+.exp-co{font-family:'Space Mono',monospace;font-size:12px;color:var(--cyan);letter-spacing:1px;margin-bottom:12px}
+.exp-note{display:inline-block;font-family:'Space Mono',monospace;font-size:10px;color:var(--green);letter-spacing:1px;padding:4px 10px;border:1px solid rgba(0,255,179,.25);background:rgba(0,255,179,.04);border-radius:2px;margin-bottom:12px}
+.exp-desc{font-size:15px;color:var(--text2);line-height:1.75}
+
+/* CONTACT */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:72px;align-items:start}
+.contact-left h2{font-size:44px;font-weight:800;letter-spacing:-2px;margin-bottom:16px}
+.contact-left p{font-size:16px;color:var(--text2);line-height:1.75}
+.contact-links{margin-top:36px;display:flex;flex-direction:column;gap:14px}
+.c-link{display:flex;align-items:center;gap:14px;font-family:'Space Mono',monospace;font-size:13px;color:var(--text2);text-decoration:none;padding:14px 18px;background:var(--surface);border:1px solid var(--border);border-radius:4px;transition:all .2s}
+.c-link:hover{border-color:var(--border2);color:var(--cyan)}
+.contact-form{display:flex;flex-direction:column;gap:14px}
+.f-lbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;display:block;margin-bottom:7px}
+.f-inp{width:100%;background:var(--surface);border:1px solid var(--border);color:var(--text);font-family:'Syne',sans-serif;font-size:15px;padding:13px 16px;border-radius:4px;outline:none;transition:border-color .2s}
+.f-inp:focus{border-color:var(--cyan)}
+textarea.f-inp{resize:vertical;min-height:110px}
+.f-btn{font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:15px 32px;border-radius:2px;background:var(--cyan);color:var(--bg);border:none;cursor:pointer;font-weight:700;transition:all .25s;margin-top:6px}
+.f-btn:hover{background:var(--cyan2);box-shadow:0 0 26px rgba(0,200,255,.4)}
+
+/* FOOTER */
+footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.f-l,.f-r{font-family:'Space Mono',monospace;font-size:11px;color:var(--text3)}
+.f-r span{color:var(--cyan)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;z-index:500;background:rgba(5,8,16,.93);backdrop-filter:blur(14px);display:none;align-items:flex-start;justify-content:center;padding:40px 24px;overflow-y:auto}
+.modal-overlay.open{display:flex}
+.modal{background:var(--bg2);border:1px solid var(--border2);border-radius:6px;width:100%;max-width:840px;position:relative;animation:modalin .3s ease;margin:auto}
+@keyframes modalin{from{opacity:0;transform:translateY(28px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-head{position:sticky;top:0;background:var(--bg2);border-bottom:1px solid var(--border);padding:18px 28px;display:flex;align-items:center;justify-content:space-between;z-index:10;border-radius:6px 6px 0 0;overflow:hidden}
+.modal-head::before{content:'';position:absolute;top:0;left:0;right:0;height:2px}
+.m1 .modal-head::before{background:linear-gradient(90deg,var(--cyan),var(--purple))}
+.m2 .modal-head::before{background:linear-gradient(90deg,var(--orange),var(--purple))}
+.modal-tag-lbl{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:3px;text-transform:uppercase}
+.modal-x{background:var(--surface);border:1px solid var(--border);color:var(--text2);width:30px;height:30px;border-radius:4px;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;transition:all .2s;flex-shrink:0}
+.modal-x:hover{border-color:var(--cyan);color:var(--cyan)}
+.modal-body{padding:32px 28px}
+.m-title{font-size:26px;font-weight:800;letter-spacing:-1px;margin-bottom:5px}
+.m-sub{font-family:'Space Mono',monospace;font-size:11px;color:var(--cyan);letter-spacing:2px;margin-bottom:26px}
+.m-sec{margin-bottom:28px}
+.m-sec-title{font-family:'Space Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:3px;text-transform:uppercase;padding-bottom:8px;border-bottom:1px solid var(--border);margin-bottom:14px}
+.m-sec p{font-size:14px;color:var(--text2);line-height:1.8;margin-bottom:10px}
+.m-sec p:last-child{margin-bottom:0}
+.m-sec p strong{color:var(--text)}
+.arch-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.arch-box{background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:14px}
+.arch-lyr{font-family:'Space Mono',monospace;font-size:9px;color:var(--orange);letter-spacing:2px;text-transform:uppercase;margin-bottom:3px}
+.arch-tech{font-size:14px;font-weight:700;margin-bottom:3px}
+.arch-desc{font-size:12px;color:var(--text3);line-height:1.6}
+.flow-list{display:flex;flex-direction:column;gap:2px}
+.flow-row{display:flex;align-items:flex-start;gap:14px;background:var(--surface);border:1px solid var(--border);border-radius:4px;padding:12px 14px}
+.flow-t{font-family:'Space Mono',monospace;font-size:10px;color:var(--cyan);letter-spacing:1px;min-width:40px;padding-top:1px;flex-shrink:0}
+.flow-d{font-size:13px;color:var(--text2);line-height:1.6}
+.flow-d strong{color:var(--text)}
+.impact-tbl{width:100%;border-collapse:collapse}
+.impact-tbl th{font-family:'Space Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:2px;text-transform:uppercase;text-align:left;padding:10px 12px;background:var(--bg3);border-bottom:1px solid var(--border)}
+.impact-tbl td{font-size:13px;padding:11px 12px;border-bottom:1px solid var(--border);color:var(--text2)}
+.impact-tbl tr:last-child td{border-bottom:none}
+.td-before{color:var(--text3)}
+.td-after{color:var(--green);font-weight:600}
+.td-mc{color:var(--text);font-weight:600}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  nav{padding:16px 24px}.nav-links{display:none}
+  section{padding:70px 24px}.hero{padding:100px 24px 60px}
+  .about-grid,.contact-grid{grid-template-columns:1fr;gap:40px}
+  .skills-grid{grid-template-columns:1fr 1fr}
+  .metrics-grid{grid-template-columns:1fr 1fr}
+  footer{padding:20px 24px;flex-direction:column;gap:10px;text-align:center}
+  .scroll-indicator{display:none}
+  .hero-stats{gap:24px}
+}
+@media(max-width:600px){
+  .skills-grid{grid-template-columns:1fr}
+  .arch-grid{grid-template-columns:1fr}
+  .modal-body{padding:24px 18px}
+}
+</style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-ring"></div>
+
+<div class="scroll-indicator">
+  <div class="sdot active" data-s="hero"></div>
+  <div class="sdot" data-s="about"></div>
+  <div class="sdot" data-s="skills"></div>
+  <div class="sdot" data-s="projects"></div>
+  <div class="sdot" data-s="experience"></div>
+  <div class="sdot" data-s="contact"></div>
+</div>
+
+<nav>
+  <div class="nav-logo">SRI.AI</div>
+  <div class="nav-links">
+    <a href="#about">About</a>
+    <a href="#skills">Skills</a>
+    <a href="#projects">Projects</a>
+    <a href="#experience">Experience</a>
+    <a href="#contact">Contact</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="hero-content">
+    <div class="hero-tag">Available for Opportunities</div>
+    <h1 class="hero-name"><span>Srimanikandan K</span></h1>
+    <div class="hero-role"><span class="hl">AI Automation Engineer</span> · Business Intelligence · Process Architect</div>
+    <p class="hero-desc">I don't build AI models — I make businesses run on them. Turning slow manual workflows into intelligent automated systems using LLMs, APIs, and no-code/low-code platforms.</p>
+    <div class="hero-stats">
+      <div><span class="stat-num">2</span><span class="stat-label">Live Projects</span></div>
+      <div><span class="stat-num">95%</span><span class="stat-label">Time Saved</span></div>
+      <div><span class="stat-num">2.5</span><span class="stat-label">Months in Role</span></div>
+      <div><span class="stat-num">₹0</span><span class="stat-label">Operating Cost</span></div>
+    </div>
+    <div class="hero-cta">
+      <a href="#projects" class="btn btn-p">View Projects</a>
+      <a href="#contact" class="btn btn-g">Get In Touch</a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="sec-header">
+    <span class="sec-tag">// 01</span><div class="sec-line"></div><span class="sec-tag">About Me</span>
+  </div>
+  <div class="about-grid">
+    <div class="about-text">
+      <p>I'm <strong>Srimanikandan K</strong>, an AI Automation Engineer based in Erode, Tamil Nadu. My work sits at the intersection of business operations and artificial intelligence — I identify where humans are doing repetitive, manual work, and I replace it with intelligent automated systems.</p>
+      <p>My focus is not on training AI models or building ML pipelines. Instead, I specialise in <strong>deploying AI as a business tool</strong> — integrating LLMs like Google Gemini into real workflows, automating CRM operations, creating self-running reporting systems, and solving operational bottlenecks with AI-first solutions.</p>
+      <p>Within just <strong>2.5 months</strong> of joining as an AI Engineer at Standard Roofs, Erode, I independently delivered two production-grade automation systems — both running live today with measurable business impact.</p>
+    </div>
+    <div class="info-card">
+      <div class="info-row">
+        <div class="info-icon">🎓</div>
+        <div><div class="info-lbl">Education</div><div class="info-val">B.E. Electronics & Communication</div><div class="info-sub">Graduated 2022</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">📍</div>
+        <div><div class="info-lbl">Location</div><div class="info-val">Erode, Tamil Nadu, India</div><div class="info-sub">Open to remote opportunities</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">💼</div>
+        <div><div class="info-lbl">Current Role</div><div class="info-val">AI Automation Engineer</div><div class="info-sub">Standard Roofs, Erode · Jan 2026–Present</div></div>
+      </div>
+      <div class="info-row">
+        <div class="info-icon">⚡</div>
+        <div><div class="info-lbl">Specialisation</div><div class="info-val">AI Automation & Integration</div><div class="info-sub">CRM · LLMs · Business Workflows</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills" class="skills-wrap">
+  <div class="sec-header">
+    <span class="sec-tag">// 02</span><div class="sec-line"></div><span class="sec-tag">Skills & Tools</span>
+  </div>
+  <div class="skills-grid">
+    <div class="skill-card"><div class="sk-icon">🤖</div><div class="sk-name">AI & LLM Integration</div><div class="sk-desc">Google Gemini · OpenAI GPT · Claude API · Prompt Engineering · Web Search Grounding</div><div class="sk-bar"><div class="sk-fill" style="width:90%"></div></div></div>
+    <div class="skill-card"><div class="sk-icon">⚙️</div><div class="sk-name">Business Automation</div><div class="sk-desc">Zoho CRM · Deluge Scripts · Workflow Rules · Client Scripts · API Connections</div><div class="sk-bar"><div class="sk-fill" style="width:92%"></div></div></div>
+    <div class="skill-card"><div class="sk-icon">🔗</div><div class="sk-name">API Integration</div><div class="sk-desc">Google Ads API · Zoho Writer API · Cloudinary CDN · Google Apps Script · REST APIs</div><div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div></div>
+    <div class="skill-card"><div class="sk-icon">📊</div><div class="sk-name">Data & Reporting</div><div class="sk-desc">Google Sheets · Automated Dashboards · KPI Tracking · HTML Email Reports · Audit Trails</div><div class="sk-bar"><div class="sk-fill" style="width:80%"></div></div></div>
+    <div class="skill-card"><div class="sk-icon">💻</div><div class="sk-name">Scripting & Development</div><div class="sk-desc">JavaScript · Google Apps Script · Deluge (Zoho) · JSON · Logic Automation</div><div class="sk-bar"><div class="sk-fill" style="width:78%"></div></div></div>
+    <div class="skill-card"><div class="sk-icon">🏗️</div><div class="sk-name">Process Architecture</div><div class="sk-desc">Workflow Design · Manual-to-AI Conversion · System Documentation · Modular Architecture</div><div class="sk-bar"><div class="sk-fill" style="width:88%"></div></div></div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-header">
+    <span class="sec-tag">// 03</span><div class="sec-line"></div><span class="sec-tag">Projects</span>
+  </div>
+  <div class="proj-grid">
+
+    <!-- PROJECT 1 -->
+    <div class="proj-card">
+      <div class="proj-visual" style="background:linear-gradient(135deg,#050e20 0%,#091428 100%)">
+        <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <defs>
+            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#a855f7" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
+          <rect x="30" y="75" width="100" height="50" rx="4" fill="none" stroke="#00c8ff" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="80" y="96" text-anchor="middle" fill="#00c8ff" font-size="10" font-family="monospace">LEAD</text>
+          <text x="80" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Zoho CRM</text>
+          <line x1="130" y1="100" x2="165" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
+          <polygon points="165,96 172,100 165,104" fill="#00c8ff" opacity="0.7"/>
+          <rect x="172" y="75" width="110" height="50" rx="4" fill="none" stroke="#00c8ff" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="227" y="96" text-anchor="middle" fill="#00c8ff" font-size="10" font-family="monospace">CONTACT</text>
+          <text x="227" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Data Store</text>
+          <line x1="282" y1="100" x2="317" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
+          <polygon points="317,96 324,100 317,104" fill="#6b8fff" opacity="0.7"/>
+          <rect x="324" y="75" width="100" height="50" rx="4" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="374" y="96" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace">DEAL</text>
+          <text x="374" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Project</text>
+          <line x1="424" y1="100" x2="459" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
+          <polygon points="459,96 466,100 459,104" fill="#a855f7" opacity="0.7"/>
+          <rect x="466" y="66" width="118" height="68" rx="4" fill="rgba(0,200,255,0.08)" stroke="#00c8ff" stroke-width="2"/>
+          <text x="525" y="90" text-anchor="middle" fill="#00eaff" font-size="11" font-family="monospace" font-weight="bold">QUOTE</text>
+          <text x="525" y="106" text-anchor="middle" fill="#00c8ff" font-size="9" font-family="monospace">5 fields only</text>
+          <text x="525" y="122" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Auto-fills 25+</text>
+          <line x1="584" y1="100" x2="619" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
+          <polygon points="619,96 626,100 619,104" fill="#a855f7" opacity="0.7"/>
+          <rect x="626" y="75" width="100" height="50" rx="4" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="676" y="96" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace">PDF</text>
+          <text x="676" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Auto-Gen</text>
+          <line x1="726" y1="100" x2="761" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
+          <polygon points="761,96 768,100 761,104" fill="#00ffb3" opacity="0.7"/>
+          <rect x="768" y="75" width="100" height="50" rx="4" fill="none" stroke="#00ffb3" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="818" y="96" text-anchor="middle" fill="#00ffb3" font-size="10" font-family="monospace">STORE</text>
+          <text x="818" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">WorkDrive</text>
+          <text x="450" y="168" text-anchor="middle" fill="#2a3855" font-size="11" font-family="monospace">4 AUTOMATION LAYERS · 14+ WORKFLOW RULES · ZOHO CRM ENTERPRISE</text>
+        </svg>
+      </div>
+      <div class="proj-body">
+        <div class="proj-meta">
+          <span class="proj-num">PROJECT_01 · ZOHO CRM</span>
+          <div class="badges"><span class="badge">Live</span><span class="badge">95% Complete</span><span class="badge">Solo Build</span></div>
+        </div>
+        <div class="proj-title">Zoho CRM Quotation<br>Automation System</div>
+        <div class="proj-sub">Standard Roofs, Erode — March 2026</div>
+        <p class="proj-desc">A complete end-to-end CRM automation system that replaced a 20-minute manual quoting process with a one-click, sub-2-minute automated flow. Built across 4 automation layers — the system auto-populates 25+ of 30+ quote fields, manages product images via Cloudinary CDN, and generates professional PDFs stored directly in CRM records.</p>
+        <div class="metrics-grid">
+          <div class="metric"><span class="m-val g">&lt;2 min</span><span class="m-lbl">Quote Time</span></div>
+          <div class="metric"><span class="m-val">5</span><span class="m-lbl">Manual Fields (was 30+)</span></div>
+          <div class="metric"><span class="m-val o">14+</span><span class="m-lbl">Automation Rules</span></div>
+          <div class="metric"><span class="m-val g">Zero</span><span class="m-lbl">Manual Errors</span></div>
+        </div>
+        <div class="stack">
+          <span class="stk">Zoho CRM</span><span class="stk">Deluge</span><span class="stk">JavaScript</span>
+          <span class="stk">Zoho Writer API</span><span class="stk">Cloudinary CDN</span><span class="stk">WorkDrive</span>
+        </div>
+        <button class="view-btn" id="openM1">View Full Project Details →</button>
+      </div>
+    </div>
+
+    <!-- PROJECT 2 -->
+    <div class="proj-card">
+      <div class="proj-visual" style="background:linear-gradient(135deg,#100805 0%,#180d06 100%)">
+        <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
+          <defs>
+            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stop-color="#ff7b3a" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#a855f7" stop-opacity="0.9"/>
+            </linearGradient>
+          </defs>
+          <rect x="30" y="60" width="120" height="80" rx="4" fill="rgba(255,123,58,0.06)" stroke="#ff7b3a" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="90" y="88" text-anchor="middle" fill="#ff7b3a" font-size="11" font-family="monospace" font-weight="bold">6:00 AM</text>
+          <text x="90" y="105" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Google Ads</text>
+          <text x="90" y="120" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Data Pull</text>
+          <line x1="150" y1="100" x2="178" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
+          <polygon points="178,96 185,100 178,104" fill="#ff7b3a" opacity="0.8"/>
+          <rect x="185" y="60" width="120" height="80" rx="4" fill="rgba(255,123,58,0.06)" stroke="#ff7b3a" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="245" y="88" text-anchor="middle" fill="#ff7b3a" font-size="11" font-family="monospace" font-weight="bold">7:00 AM</text>
+          <text x="245" y="105" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">7-Day Trend</text>
+          <text x="245" y="120" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Analysis</text>
+          <line x1="305" y1="100" x2="333" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
+          <polygon points="333,96 340,100 333,104" fill="#a855f7" opacity="0.8"/>
+          <rect x="340" y="50" width="138" height="100" rx="4" fill="rgba(168,85,247,0.08)" stroke="#a855f7" stroke-width="2"/>
+          <text x="409" y="80" text-anchor="middle" fill="#a855f7" font-size="11" font-family="monospace" font-weight="bold">GEMINI AI</text>
+          <text x="409" y="97" text-anchor="middle" fill="#a855f7" font-size="9" font-family="monospace">Dual Key Arch</text>
+          <text x="409" y="113" text-anchor="middle" fill="#8899bb" font-size="8" font-family="monospace">Analysis +</text>
+          <text x="409" y="128" text-anchor="middle" fill="#8899bb" font-size="8" font-family="monospace">Web Research</text>
+          <line x1="478" y1="100" x2="506" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
+          <polygon points="506,96 513,100 506,104" fill="#a855f7" opacity="0.8"/>
+          <rect x="513" y="60" width="130" height="80" rx="4" fill="rgba(168,85,247,0.06)" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="578" y="86" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace" font-weight="bold">STOP/SCALE</text>
+          <text x="578" y="101" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace">/FIX TABLE</text>
+          <text x="578" y="118" text-anchor="middle" fill="#8899bb" font-size="8" font-family="monospace">Per Keyword</text>
+          <line x1="643" y1="100" x2="671" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
+          <polygon points="671,96 678,100 671,104" fill="#00ffb3" opacity="0.8"/>
+          <rect x="678" y="60" width="110" height="80" rx="4" fill="rgba(0,255,179,0.05)" stroke="#00ffb3" stroke-width="1.5" stroke-opacity="0.5"/>
+          <text x="733" y="86" text-anchor="middle" fill="#00ffb3" font-size="11" font-family="monospace" font-weight="bold">7:04 AM</text>
+          <text x="733" y="102" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Email Report</text>
+          <text x="733" y="118" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Delivered</text>
+          <rect x="800" y="78" width="72" height="44" rx="4" fill="rgba(0,255,179,0.08)" stroke="#00ffb3" stroke-width="1.5" stroke-opacity="0.6"/>
+          <text x="836" y="97" text-anchor="middle" fill="#00ffb3" font-size="14" font-family="monospace" font-weight="bold">₹0</text>
+          <text x="836" y="112" text-anchor="middle" fill="#4a5880" font-size="8" font-family="monospace">Monthly</text>
+          <text x="450" y="168" text-anchor="middle" fill="#2a3855" font-size="11" font-family="monospace">GEMINI 2.5 FLASH · DUAL AI · ZERO COST · FULLY AUTONOMOUS DAILY</text>
+        </svg>
+      </div>
+      <div class="proj-body">
+        <div class="proj-meta">
+          <span class="proj-num">PROJECT_02 · AI ANALYTICS</span>
+          <div class="badges"><span class="badge g">Live & Operational</span><span class="badge o">v4.2 Production</span><span class="badge">Daily Automation</span></div>
+        </div>
+        <div class="proj-title">AI-Powered Google Ads<br>Automation System</div>
+        <div class="proj-sub">Standard Roofs, Erode — April 2026</div>
+        <p class="proj-desc">A fully autonomous AI analytics pipeline that monitors Google Ads spend daily and delivers intelligent optimization recommendations without any human input. Uses a dual Gemini AI architecture — one for campaign diagnosis, one for live internet keyword research — delivering a color-coded STOP/SCALE/FIX report every morning at 7 AM, at zero monthly cost.</p>
+        <div class="metrics-grid">
+          <div class="metric"><span class="m-val o">₹895</span><span class="m-lbl">Waste Identified</span></div>
+          <div class="metric"><span class="m-val">62%</span><span class="m-lbl">Budget Waste</span></div>
+          <div class="metric"><span class="m-val g">₹0</span><span class="m-lbl">Monthly Cost</span></div>
+          <div class="metric"><span class="m-val">7AM</span><span class="m-lbl">Daily Delivery</span></div>
+        </div>
+        <div class="stack">
+          <span class="stk">Google Gemini 2.5</span><span class="stk">Google Ads API</span>
+          <span class="stk">Apps Script</span><span class="stk">Google Sheets</span><span class="stk">Gmail API</span>
+        </div>
+        <button class="view-btn" id="openM2">View Full Project Details →</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience" class="exp-wrap">
+  <div class="sec-header">
+    <span class="sec-tag">// 04</span><div class="sec-line"></div><span class="sec-tag">Experience</span>
+  </div>
+  <div class="exp-timeline">
+    <div class="exp-item current">
+      <div class="exp-date">Jan 2026 — Present · 2.5 months</div>
+      <div class="exp-role">AI Automation Engineer</div>
+      <div class="exp-co">Standard Roofs, Erode</div>
+      <div class="exp-note">⚡ 2 Production Systems Delivered</div>
+      <div class="exp-desc">Joined as the company's first AI Engineer. Within 2.5 months, independently designed and deployed two live AI automation systems — a Zoho CRM quoting engine and an AI-powered Google Ads analytics pipeline. Both systems are running in production today with zero manual intervention.</div>
+    </div>
+    <div class="exp-item">
+      <div class="exp-date">2018 — 2022</div>
+      <div class="exp-role">B.E. Electronics & Communication Engineering</div>
+      <div class="exp-co">Tamil Nadu</div>
+      <div class="exp-desc">Completed undergraduate degree in ECE, building a foundation in electronics, signal systems, and engineering problem-solving that now underpins systems thinking in automation design.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-header">
+    <span class="sec-tag">// 05</span><div class="sec-line"></div><span class="sec-tag">Get In Touch</span>
+  </div>
+  <div class="contact-grid">
+    <div class="contact-left">
+      <h2>Let's Build Something Smarter</h2>
+      <p>If your business has manual processes eating time and money, I can help you identify them and replace them with AI-powered automation. Let's talk.</p>
+      <div class="contact-links">
+        <a href="mailto:your@email.com" class="c-link">📧 &nbsp;your@email.com</a>
+        <a href="https://linkedin.com/in/srimanikandan" target="_blank" class="c-link">💼 &nbsp;linkedin.com/in/srimanikandan</a>
+        <div class="c-link">📍 &nbsp;Erode, Tamil Nadu, India</div>
+      </div>
+    </div>
+    <div class="contact-form">
+      <div><label class="f-lbl">Name</label><input type="text" class="f-inp" placeholder="Your name"></div>
+      <div><label class="f-lbl">Email</label><input type="email" class="f-inp" placeholder="your@email.com"></div>
+      <div><label class="f-lbl">Message</label><textarea class="f-inp" placeholder="Tell me about your automation challenge..."></textarea></div>
+      <button class="f-btn">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-l">© 2026 SRIMANIKANDAN K · ALL RIGHTS RESERVED</div>
+  <div class="f-r">Powered by <span>AI Automation</span></div>
+</footer>
+
+<!-- MODAL 1 -->
+<div class="modal-overlay m1" id="modal1">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-tag-lbl">PROJECT_01 · ZOHO CRM AUTOMATION</span>
+      <button class="modal-x" id="closeM1">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="m-title">Zoho CRM Quotation Automation System</div>
+      <div class="m-sub">Standard Roofs, Erode · March 2026 · Solo Build · Production Live</div>
+      <div class="m-sec">
+        <div class="m-sec-title">// Overview</div>
+        <p>A complete end-to-end CRM automation system that replaced a 20-minute manual quoting process with a one-click, sub-2-minute automated flow. Built entirely solo within the first 2 months of joining — with no prior Zoho CRM experience.</p>
+        <p>The system automates the entire lifecycle from lead capture to professional PDF quote delivery. Out of 30+ fields in the Quotes module, the user only needs to enter 5 — the automation stack handles everything else.</p>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// 4 Automation Layers</div>
+        <div class="arch-grid">
+          <div class="arch-box"><div class="arch-lyr">Layer 1</div><div class="arch-tech">Workflow Rules (14+)</div><div class="arch-desc">Trigger Deluge functions on CRM record create/edit — works on both web and Zoho mobile app</div></div>
+          <div class="arch-box"><div class="arch-lyr">Layer 2</div><div class="arch-tech">Deluge Functions</div><div class="arch-desc">Backend logic — auto-fetch client data, roofing specs, staff contacts, product images, serial numbers</div></div>
+          <div class="arch-box"><div class="arch-lyr">Layer 3</div><div class="arch-tech">Client Script (JavaScript)</div><div class="arch-desc">Browser-side instant auto-fill — Total Area and Grand Total calculate live as user types, before save</div></div>
+          <div class="arch-box"><div class="arch-lyr">Layer 4</div><div class="arch-tech">Zoho Writer API</div><div class="arch-desc">One-click PDF via mergeAndStore API — auto-attaches to CRM record, stores in WorkDrive permanently</div></div>
+        </div>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// End-to-End Data Flow</div>
+        <div class="flow-list">
+          <div class="flow-row"><span class="flow-t">LEAD</span><div class="flow-d"><strong>Pre-sales enquiry</strong> captured in Zoho Leads module</div></div>
+          <div class="flow-row"><span class="flow-t">CONTACT</span><div class="flow-d"><strong>Permanent customer data store</strong> — single source of truth for client info</div></div>
+          <div class="flow-row"><span class="flow-t">DEAL</span><div class="flow-d"><strong>Active roofing project record</strong> — feeds into Quote and stores final PDF link</div></div>
+          <div class="flow-row"><span class="flow-t">QUOTE</span><div class="flow-d"><strong>Transaction module</strong> — all 4 automation layers converge here. User enters only 5 fields</div></div>
+          <div class="flow-row"><span class="flow-t">WRITER</span><div class="flow-d"><strong>Zoho Writer mail merge</strong> — 30+ placeholders auto-filled, rendered as professional PDF</div></div>
+          <div class="flow-row"><span class="flow-t">STORE</span><div class="flow-d"><strong>Auto-stored in WorkDrive</strong> + attached to Deal + permanent link saved in both records</div></div>
+        </div>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// Key Automation Functions</div>
+        <p><strong>Create Fetch Function</strong> — Auto-populates client name, contact, and site location from linked Contact record the moment a quote is created.</p>
+        <p><strong>Roofing Autofill (Master Spec Fetch)</strong> — Fetches complete roofing system specifications — covering 8 products and 65+ subtypes, all automated.</p>
+        <p><strong>Smart Image Priority Logic</strong> — If user manually uploads an image, it takes precedence. Otherwise, Cloudinary CDN URL auto-fetched from Product Colors module.</p>
+        <p><strong>PDF Generation Function</strong> — Calls Zoho Writer mergeAndStore API, generates a smart-named PDF (Quote No + Client Name). Under 10 seconds end-to-end.</p>
+        <p><strong>Staff Auto-Fetch</strong> — Supervisor, Manager, and Accountant mobile numbers auto-fetched and embedded in every quote automatically.</p>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// Before vs. After</div>
+        <table class="impact-tbl">
+          <tr><th>Metric</th><th>Before</th><th>After</th></tr>
+          <tr><td class="td-mc">Quote Time</td><td class="td-before">~20 minutes</td><td class="td-after">&lt;2 minutes — 95% reduction</td></tr>
+          <tr><td class="td-mc">Manual Fields</td><td class="td-before">30+ fields typed manually</td><td class="td-after">Only 5 fields required</td></tr>
+          <tr><td class="td-mc">Product Coverage</td><td class="td-before">Manual reference per product</td><td class="td-after">8 products, 65+ subtypes automated</td></tr>
+          <tr><td class="td-mc">Manual Errors</td><td class="td-before">Frequent typos & wrong specs</td><td class="td-after">Zero — all auto-fetched</td></tr>
+          <tr><td class="td-mc">PDF Generation</td><td class="td-before">Manual mail merge every time</td><td class="td-after">One click — under 10 seconds</td></tr>
+          <tr><td class="td-mc">PDF Storage</td><td class="td-before">Manual save and upload</td><td class="td-after">Auto-stored + attached to CRM</td></tr>
+          <tr><td class="td-mc">Mobile Support</td><td class="td-before">Web only</td><td class="td-after">Web + Zoho Mobile App</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL 2 -->
+<div class="modal-overlay m2" id="modal2">
+  <div class="modal">
+    <div class="modal-head">
+      <span class="modal-tag-lbl">PROJECT_02 · AI ADS AUTOMATION</span>
+      <button class="modal-x" id="closeM2">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="m-title">AI-Powered Google Ads Automation System</div>
+      <div class="m-sub">Standard Roofs, Erode · April 2026 · v4.2 · Live Since March 30, 2026</div>
+      <div class="m-sec">
+        <div class="m-sec-title">// Overview</div>
+        <p>A fully autonomous AI analytics pipeline that monitors Google Ads spend daily, runs dual-AI analysis via Google Gemini 2.5 Flash, and delivers intelligent optimization recommendations to the business owner every morning — with zero manual intervention and zero monthly cost.</p>
+        <p>Currently monitoring a ₹500/day Google Ads budget for Standard Roofs. Within 6 days, identified ₹895 in wasted spend (62% of total budget) that was flagged for pausing.</p>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// Platform Stack</div>
+        <div class="arch-grid">
+          <div class="arch-box"><div class="arch-lyr">Data Source</div><div class="arch-tech">Google Ads Script</div><div class="arch-desc">Pulls keyword-level metrics at 6:00 AM IST — impressions, clicks, cost, conversions per keyword</div></div>
+          <div class="arch-box"><div class="arch-lyr">AI Engine 1</div><div class="arch-tech">Gemini 2.5 Flash (Key 1)</div><div class="arch-desc">Primary analysis — 7-day trend diagnosis, campaign strategy, STOP/SCALE/FIX decision table</div></div>
+          <div class="arch-box"><div class="arch-lyr">AI Engine 2</div><div class="arch-tech">Gemini 2.5 Flash (Key 2)</div><div class="arch-desc">Live web search grounding — researches real-time keyword demand for Erode roofing market daily</div></div>
+          <div class="arch-box"><div class="arch-lyr">Delivery</div><div class="arch-tech">Gmail + Google Sheets</div><div class="arch-desc">HTML email by 7:00 AM + full audit trail in Sheets (DAILY_REPORT, ACTION_LOG, TREND_TRACKER)</div></div>
+        </div>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// Automated Daily Pipeline</div>
+        <div class="flow-list">
+          <div class="flow-row"><span class="flow-t">6:00AM</span><div class="flow-d"><strong>Google Ads Script</strong> pulls yesterday's keyword data → writes to RAW_DATA sheet</div></div>
+          <div class="flow-row"><span class="flow-t">7:00AM</span><div class="flow-d"><strong>Apps Script</strong> reads RAW_DATA → builds 7-day trend map per keyword</div></div>
+          <div class="flow-row"><span class="flow-t">7:01AM</span><div class="flow-d"><strong>Gemini Key 2</strong> performs live web search for keyword demand in Erode, Tamil Nadu</div></div>
+          <div class="flow-row"><span class="flow-t">7:02AM</span><div class="flow-d"><strong>Gemini Key 1</strong> analyzes all data → generates STOP/SCALE/FIX report with exact rupee recommendations</div></div>
+          <div class="flow-row"><span class="flow-t">7:03AM</span><div class="flow-d"><strong>Report written</strong> to DAILY_REPORT sheet + ACTION_LOG updated with all recommendations</div></div>
+          <div class="flow-row"><span class="flow-t">7:04AM</span><div class="flow-d"><strong>HTML email</strong> with color-coded decision table delivered to business owner's inbox</div></div>
+        </div>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// What the AI Report Contains</div>
+        <p><strong>STOP / SCALE / FIX Decision Table</strong> — Color-coded recommendation for every active keyword with exact rupee amounts based on 7-day cumulative trend data.</p>
+        <p><strong>Live Keyword Research</strong> — Gemini Key 2 searches the internet daily to identify high-demand roofing keywords in Erode not yet in the campaign.</p>
+        <p><strong>7-Day Trend Context</strong> — Decisions based on patterns over 7 days, not single-day snapshots — eliminating reactive budget mismanagement.</p>
+        <p><strong>Complete Audit Trail</strong> — Every recommendation timestamped and logged in Google Sheets for full accountability.</p>
+      </div>
+      <div class="m-sec">
+        <div class="m-sec-title">// Live Results (6 Days Operational)</div>
+        <table class="impact-tbl">
+          <tr><th>Metric</th><th>Before System</th><th>After System</th></tr>
+          <tr><td class="td-mc">Daily Analysis Time</td><td class="td-before">30–60 min manual</td><td class="td-after">0 min — fully automated</td></tr>
+          <tr><td class="td-mc">Budget Waste Identified</td><td class="td-before">Invisible</td><td class="td-after">₹895 flagged (62% of spend)</td></tr>
+          <tr><td class="td-mc">Keyword Visibility</td><td class="td-before">Account-level only</td><td class="td-after">Keyword-level + 7-day trends</td></tr>
+          <tr><td class="td-mc">Keyword Research</td><td class="td-before">Manual, infrequent</td><td class="td-after">Live AI internet research daily</td></tr>
+          <tr><td class="td-mc">Monthly Cost</td><td class="td-before">Manual labor cost</td><td class="td-after">₹0 — free Google stack</td></tr>
+          <tr><td class="td-mc">Report Delivery</td><td class="td-before">Not systematic</td><td class="td-after">7:00 AM every day, no failures</td></tr>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── CURSOR ──
+const cur = document.getElementById('cur');
+const ring = document.getElementById('cur-ring');
+let mx = -100, my = -100, rx = -100, ry = -100;
+
+document.addEventListener('mousemove', function(e) {
+  mx = e.clientX;
+  my = e.clientY;
+  cur.style.left = mx + 'px';
+  cur.style.top = my + 'px';
+});
+
+(function loopRing() {
+  rx += (mx - rx) * 0.13;
+  ry += (my - ry) * 0.13;
+  ring.style.left = rx + 'px';
+  ring.style.top = ry + 'px';
+  requestAnimationFrame(loopRing);
+})();
+
+document.addEventListener('mouseover', function(e) {
+  var t = e.target.closest('a, button, .skill-card, .proj-card, .sdot');
+  if (t) {
+    cur.style.width = '18px';
+    cur.style.height = '18px';
+    ring.style.width = '52px';
+    ring.style.height = '52px';
+  } else {
+    cur.style.width = '12px';
+    cur.style.height = '12px';
+    ring.style.width = '38px';
+    ring.style.height = '38px';
+  }
+});
+
+// ── SCROLL DOTS ──
+var secs = ['hero','about','skills','projects','experience','contact'];
+var dots = document.querySelectorAll('.sdot');
+
+dots.forEach(function(d, i) {
+  d.addEventListener('click', function() {
+    var el = document.getElementById(secs[i]);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+secs.forEach(function(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) {
+      if (e.isIntersecting) {
+        var i = secs.indexOf(e.target.id);
+        dots.forEach(function(d) { d.classList.remove('active'); });
+        if (i >= 0) dots[i].classList.add('active');
+      }
+    });
+  }, { threshold: 0.35 }).observe(el);
+});
+
+// ── SKILL BARS ──
+document.querySelectorAll('.skill-card').forEach(function(c) {
+  new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.25 }).observe(c);
+});
+
+// ── EXP ANIMATION ──
+document.querySelectorAll('.exp-item').forEach(function(item, i) {
+  item.style.transitionDelay = (i * 0.15) + 's';
+  new IntersectionObserver(function(entries) {
+    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.2 }).observe(item);
+});
+
+// ── MODALS ──
+function openModal(id) {
+  var m = document.getElementById(id);
+  if (!m) return;
+  m.style.display = 'flex';
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(id) {
+  var m = document.getElementById(id);
+  if (!m) return;
+  m.style.display = 'none';
+  document.body.style.overflow = '';
+}
+
+document.getElementById('openM1').addEventListener('click', function() { openModal('modal1'); });
+document.getElementById('openM2').addEventListener('click', function() { openModal('modal2'); });
+document.getElementById('closeM1').addEventListener('click', function() { closeModal('modal1'); });
+document.getElementById('closeM2').addEventListener('click', function() { closeModal('modal2'); });
+
+document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+  overlay.addEventListener('click', function(e) {
+    if (e.target === overlay) closeModal(overlay.id);
+  });
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') {
+    ['modal1','modal2'].forEach(function(id) { closeModal(id); });
+  }
+});
+</script>
+</body>
+</html>
