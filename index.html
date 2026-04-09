@@ -16,11 +16,11 @@
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 html{scroll-behavior:smooth}
-body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden}
+body{font-family:'Syne',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
 
-/* CURSOR */
-#cur{position:fixed;width:12px;height:12px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s;mix-blend-mode:screen;top:-20px;left:-20px}
-#cur-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(0,200,255,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);top:-20px;left:-20px;transition:width .2s,height .2s}
+/* CURSOR - FIXED: Always visible */
+#cur{position:fixed;width:12px;height:12px;background:var(--cyan);border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:width .15s,height .15s,background .15s;mix-blend-mode:screen;top:-20px;left:-20px;opacity:1}
+#cur-ring{position:fixed;width:38px;height:38px;border:1.5px solid rgba(0,200,255,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);top:-20px;left:-20px;transition:width .2s,height .2s,border-color .2s;opacity:1}
 
 /* GRID BG */
 body::after{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,200,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,200,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0}
@@ -100,7 +100,9 @@ section{position:relative;z-index:2;padding:100px 60px}
 .proj-grid{display:grid;gap:28px}
 .proj-card{background:var(--surface);border:1px solid var(--border);border-radius:4px;overflow:hidden;transition:border-color .3s,transform .3s,box-shadow .3s}
 .proj-card:hover{border-color:var(--border2);transform:translateY(-4px);box-shadow:0 24px 64px rgba(0,0,0,.5),0 0 32px rgba(0,200,255,.07)}
-.proj-visual{width:100%;height:200px;display:flex;align-items:center;justify-content:center;overflow:hidden}
+.proj-visual{width:100%;height:240px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:var(--bg2);position:relative}
+.proj-visual img{width:100%;height:100%;object-fit:cover;opacity:0.9;transition:opacity .3s,transform .3s}
+.proj-card:hover .proj-visual img{opacity:1;transform:scale(1.02)}
 .proj-body{padding:36px}
 .proj-meta{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px;gap:12px;flex-wrap:wrap}
 .proj-num{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);letter-spacing:2px}
@@ -118,8 +120,12 @@ section{position:relative;z-index:2;padding:100px 60px}
 .m-lbl{font-family:'Space Mono',monospace;font-size:9px;color:var(--text3);letter-spacing:1px;text-transform:uppercase;line-height:1.4}
 .stack{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:24px}
 .stk{font-family:'Space Mono',monospace;font-size:10px;color:var(--text2);letter-spacing:1px;padding:5px 12px;background:var(--bg3);border:1px solid var(--border);border-radius:2px}
-.view-btn{width:100%;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 24px;border-radius:2px;background:transparent;color:var(--cyan);border:1px solid var(--border2);cursor:pointer;transition:all .25s;display:block}
+.view-btn{width:100%;font-family:'Space Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px 24px;border-radius:2px;background:transparent;color:var(--cyan);border:1px solid var(--border2);cursor:pointer;transition:all .25s;display:block;text-align:center;text-decoration:none}
 .view-btn:hover{background:rgba(0,200,255,.08);box-shadow:0 0 20px rgba(0,200,255,.15)}
+.doc-links{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.doc-link{font-family:'Space Mono',monospace;font-size:10px;color:var(--text3);text-decoration:none;padding:8px 14px;border:1px solid var(--border);border-radius:2px;transition:all .2s;display:inline-flex;align-items:center;gap:6px}
+.doc-link:hover{border-color:var(--cyan);color:var(--cyan)}
+.doc-link::before{content:'📄'}
 
 /* EXPERIENCE */
 .exp-wrap{background:var(--bg2)}
@@ -203,11 +209,14 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
   footer{padding:20px 24px;flex-direction:column;gap:10px;text-align:center}
   .scroll-indicator{display:none}
   .hero-stats{gap:24px}
+  body{cursor:auto}
+  #cur, #cur-ring{display:none}
 }
 @media(max-width:600px){
   .skills-grid{grid-template-columns:1fr}
   .arch-grid{grid-template-columns:1fr}
   .modal-body{padding:24px 18px}
+  .proj-visual{height:200px}
 }
 </style>
 </head>
@@ -248,7 +257,7 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
     <div class="hero-stats">
       <div><span class="stat-num">2</span><span class="stat-label">Live Projects</span></div>
       <div><span class="stat-num">95%</span><span class="stat-label">Time Saved</span></div>
-      <div><span class="stat-num">2.5</span><span class="stat-label">Months in Role</span></div>
+      <div><span class="stat-num">3</span><span class="stat-label">Months in Role</span></div>
       <div><span class="stat-num">₹0</span><span class="stat-label">Operating Cost</span></div>
     </div>
     <div class="hero-cta">
@@ -267,7 +276,7 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
     <div class="about-text">
       <p>I'm <strong>Srimanikandan K</strong>, an AI Automation Engineer based in Erode, Tamil Nadu. My work sits at the intersection of business operations and artificial intelligence — I identify where humans are doing repetitive, manual work, and I replace it with intelligent automated systems.</p>
       <p>My focus is not on training AI models or building ML pipelines. Instead, I specialise in <strong>deploying AI as a business tool</strong> — integrating LLMs like Google Gemini into real workflows, automating CRM operations, creating self-running reporting systems, and solving operational bottlenecks with AI-first solutions.</p>
-      <p>Within just <strong>2.5 months</strong> of joining as an AI Engineer at Standard Roofs, Erode, I independently delivered two production-grade automation systems — both running live today with measurable business impact.</p>
+      <p>With experience spanning research, product support, software development, and now AI engineering, I bring a unique systems-thinking approach to automation challenges.</p>
     </div>
     <div class="info-card">
       <div class="info-row">
@@ -300,7 +309,7 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
     <div class="skill-card"><div class="sk-icon">⚙️</div><div class="sk-name">Business Automation</div><div class="sk-desc">Zoho CRM · Deluge Scripts · Workflow Rules · Client Scripts · API Connections</div><div class="sk-bar"><div class="sk-fill" style="width:92%"></div></div></div>
     <div class="skill-card"><div class="sk-icon">🔗</div><div class="sk-name">API Integration</div><div class="sk-desc">Google Ads API · Zoho Writer API · Cloudinary CDN · Google Apps Script · REST APIs</div><div class="sk-bar"><div class="sk-fill" style="width:85%"></div></div></div>
     <div class="skill-card"><div class="sk-icon">📊</div><div class="sk-name">Data & Reporting</div><div class="sk-desc">Google Sheets · Automated Dashboards · KPI Tracking · HTML Email Reports · Audit Trails</div><div class="sk-bar"><div class="sk-fill" style="width:80%"></div></div></div>
-    <div class="skill-card"><div class="sk-icon">💻</div><div class="sk-name">Scripting & Development</div><div class="sk-desc">JavaScript · Google Apps Script · Deluge (Zoho) · JSON · Logic Automation</div><div class="sk-bar"><div class="sk-fill" style="width:78%"></div></div></div>
+    <div class="skill-card"><div class="sk-icon">💻</div><div class="sk-name">Scripting & Development</div><div class="sk-desc">JavaScript · Google Apps Script · Deluge (Zoho) · Python · JSON · Logic Automation</div><div class="sk-bar"><div class="sk-fill" style="width:78%"></div></div></div>
     <div class="skill-card"><div class="sk-icon">🏗️</div><div class="sk-name">Process Architecture</div><div class="sk-desc">Workflow Design · Manual-to-AI Conversion · System Documentation · Modular Architecture</div><div class="sk-bar"><div class="sk-fill" style="width:88%"></div></div></div>
   </div>
 </section>
@@ -314,45 +323,10 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
 
     <!-- PROJECT 1 -->
     <div class="proj-card">
-      <div class="proj-visual" style="background:linear-gradient(135deg,#050e20 0%,#091428 100%)">
-        <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-          <defs>
-            <linearGradient id="g1" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#00c8ff" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="#a855f7" stop-opacity="0.9"/>
-            </linearGradient>
-          </defs>
-          <rect x="30" y="75" width="100" height="50" rx="4" fill="none" stroke="#00c8ff" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="80" y="96" text-anchor="middle" fill="#00c8ff" font-size="10" font-family="monospace">LEAD</text>
-          <text x="80" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Zoho CRM</text>
-          <line x1="130" y1="100" x2="165" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
-          <polygon points="165,96 172,100 165,104" fill="#00c8ff" opacity="0.7"/>
-          <rect x="172" y="75" width="110" height="50" rx="4" fill="none" stroke="#00c8ff" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="227" y="96" text-anchor="middle" fill="#00c8ff" font-size="10" font-family="monospace">CONTACT</text>
-          <text x="227" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Data Store</text>
-          <line x1="282" y1="100" x2="317" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
-          <polygon points="317,96 324,100 317,104" fill="#6b8fff" opacity="0.7"/>
-          <rect x="324" y="75" width="100" height="50" rx="4" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="374" y="96" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace">DEAL</text>
-          <text x="374" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Project</text>
-          <line x1="424" y1="100" x2="459" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
-          <polygon points="459,96 466,100 459,104" fill="#a855f7" opacity="0.7"/>
-          <rect x="466" y="66" width="118" height="68" rx="4" fill="rgba(0,200,255,0.08)" stroke="#00c8ff" stroke-width="2"/>
-          <text x="525" y="90" text-anchor="middle" fill="#00eaff" font-size="11" font-family="monospace" font-weight="bold">QUOTE</text>
-          <text x="525" y="106" text-anchor="middle" fill="#00c8ff" font-size="9" font-family="monospace">5 fields only</text>
-          <text x="525" y="122" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Auto-fills 25+</text>
-          <line x1="584" y1="100" x2="619" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
-          <polygon points="619,96 626,100 619,104" fill="#a855f7" opacity="0.7"/>
-          <rect x="626" y="75" width="100" height="50" rx="4" fill="none" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="676" y="96" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace">PDF</text>
-          <text x="676" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">Auto-Gen</text>
-          <line x1="726" y1="100" x2="761" y2="100" stroke="url(#g1)" stroke-width="1.5" stroke-opacity="0.6"/>
-          <polygon points="761,96 768,100 761,104" fill="#00ffb3" opacity="0.7"/>
-          <rect x="768" y="75" width="100" height="50" rx="4" fill="none" stroke="#00ffb3" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="818" y="96" text-anchor="middle" fill="#00ffb3" font-size="10" font-family="monospace">STORE</text>
-          <text x="818" y="112" text-anchor="middle" fill="#4a5880" font-size="9" font-family="monospace">WorkDrive</text>
-          <text x="450" y="168" text-anchor="middle" fill="#2a3855" font-size="11" font-family="monospace">4 AUTOMATION LAYERS · 14+ WORKFLOW RULES · ZOHO CRM ENTERPRISE</text>
-        </svg>
+      <div class="proj-visual">
+        <!-- REPLACE THIS IMAGE URL WITH YOUR ACTUAL SCREENSHOT -->
+        <img src="https://kimi-web-img.moonshot.cn/img/www.zohowebstatic.com/b4d45f3566f019a60d31c4759b9332077b58645c.png" alt="Zoho CRM Quotation Automation System" />
+        <div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);padding:5px 10px;border-radius:4px;font-family:'Space Mono',monospace;font-size:10px;color:var(--cyan);">📸 Replace with your screenshot</div>
       </div>
       <div class="proj-body">
         <div class="proj-meta">
@@ -373,53 +347,20 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
           <span class="stk">Zoho Writer API</span><span class="stk">Cloudinary CDN</span><span class="stk">WorkDrive</span>
         </div>
         <button class="view-btn" id="openM1">View Full Project Details →</button>
+        <div class="doc-links">
+          <!-- UPDATE THESE LINKS AFTER UPLOADING TO GITHUB -->
+          <a href="./docs/zoho-crm-documentation.pdf" class="doc-link" target="_blank">Technical Documentation</a>
+          <a href="./docs/zoho-crm-screenshots.pdf" class="doc-link" target="_blank">Project Screenshots</a>
+        </div>
       </div>
     </div>
 
     <!-- PROJECT 2 -->
     <div class="proj-card">
-      <div class="proj-visual" style="background:linear-gradient(135deg,#100805 0%,#180d06 100%)">
-        <svg viewBox="0 0 900 200" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:100%">
-          <defs>
-            <linearGradient id="g2" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#ff7b3a" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="#a855f7" stop-opacity="0.9"/>
-            </linearGradient>
-          </defs>
-          <rect x="30" y="60" width="120" height="80" rx="4" fill="rgba(255,123,58,0.06)" stroke="#ff7b3a" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="90" y="88" text-anchor="middle" fill="#ff7b3a" font-size="11" font-family="monospace" font-weight="bold">6:00 AM</text>
-          <text x="90" y="105" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Google Ads</text>
-          <text x="90" y="120" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Data Pull</text>
-          <line x1="150" y1="100" x2="178" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
-          <polygon points="178,96 185,100 178,104" fill="#ff7b3a" opacity="0.8"/>
-          <rect x="185" y="60" width="120" height="80" rx="4" fill="rgba(255,123,58,0.06)" stroke="#ff7b3a" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="245" y="88" text-anchor="middle" fill="#ff7b3a" font-size="11" font-family="monospace" font-weight="bold">7:00 AM</text>
-          <text x="245" y="105" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">7-Day Trend</text>
-          <text x="245" y="120" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Analysis</text>
-          <line x1="305" y1="100" x2="333" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
-          <polygon points="333,96 340,100 333,104" fill="#a855f7" opacity="0.8"/>
-          <rect x="340" y="50" width="138" height="100" rx="4" fill="rgba(168,85,247,0.08)" stroke="#a855f7" stroke-width="2"/>
-          <text x="409" y="80" text-anchor="middle" fill="#a855f7" font-size="11" font-family="monospace" font-weight="bold">GEMINI AI</text>
-          <text x="409" y="97" text-anchor="middle" fill="#a855f7" font-size="9" font-family="monospace">Dual Key Arch</text>
-          <text x="409" y="113" text-anchor="middle" fill="#8899bb" font-size="8" font-family="monospace">Analysis +</text>
-          <text x="409" y="128" text-anchor="middle" fill="#8899bb" font-size="8" font-family="monospace">Web Research</text>
-          <line x1="478" y1="100" x2="506" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
-          <polygon points="506,96 513,100 506,104" fill="#a855f7" opacity="0.8"/>
-          <rect x="513" y="60" width="130" height="80" rx="4" fill="rgba(168,85,247,0.06)" stroke="#a855f7" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="578" y="86" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace" font-weight="bold">STOP/SCALE</text>
-          <text x="578" y="101" text-anchor="middle" fill="#a855f7" font-size="10" font-family="monospace">/FIX TABLE</text>
-          <text x="578" y="118" text-anchor="middle" fill="#8899bb" font-size="8" font-family="monospace">Per Keyword</text>
-          <line x1="643" y1="100" x2="671" y2="100" stroke="url(#g2)" stroke-width="1.5" stroke-opacity="0.7"/>
-          <polygon points="671,96 678,100 671,104" fill="#00ffb3" opacity="0.8"/>
-          <rect x="678" y="60" width="110" height="80" rx="4" fill="rgba(0,255,179,0.05)" stroke="#00ffb3" stroke-width="1.5" stroke-opacity="0.5"/>
-          <text x="733" y="86" text-anchor="middle" fill="#00ffb3" font-size="11" font-family="monospace" font-weight="bold">7:04 AM</text>
-          <text x="733" y="102" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Email Report</text>
-          <text x="733" y="118" text-anchor="middle" fill="#8899bb" font-size="9" font-family="monospace">Delivered</text>
-          <rect x="800" y="78" width="72" height="44" rx="4" fill="rgba(0,255,179,0.08)" stroke="#00ffb3" stroke-width="1.5" stroke-opacity="0.6"/>
-          <text x="836" y="97" text-anchor="middle" fill="#00ffb3" font-size="14" font-family="monospace" font-weight="bold">₹0</text>
-          <text x="836" y="112" text-anchor="middle" fill="#4a5880" font-size="8" font-family="monospace">Monthly</text>
-          <text x="450" y="168" text-anchor="middle" fill="#2a3855" font-size="11" font-family="monospace">GEMINI 2.5 FLASH · DUAL AI · ZERO COST · FULLY AUTONOMOUS DAILY</text>
-        </svg>
+      <div class="proj-visual" style="background:linear-gradient(135deg,#0a0e1a 0%,#121a2e 100%)">
+        <!-- REPLACE THIS IMAGE URL WITH YOUR ACTUAL SCREENSHOT -->
+        <img src="https://kimi-web-img.moonshot.cn/img/images.ctfassets.net/b82e268f7e058205bc13290a776f5e1798fc8c15.png" alt="Google Ads AI Automation Dashboard" style="object-fit:contain;padding:20px;" />
+        <div style="position:absolute;bottom:10px;right:10px;background:rgba(0,0,0,0.7);padding:5px 10px;border-radius:4px;font-family:'Space Mono',monospace;font-size:10px;color:var(--orange);">📸 Replace with your screenshot</div>
       </div>
       <div class="proj-body">
         <div class="proj-meta">
@@ -440,35 +381,64 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
           <span class="stk">Apps Script</span><span class="stk">Google Sheets</span><span class="stk">Gmail API</span>
         </div>
         <button class="view-btn" id="openM2">View Full Project Details →</button>
+        <div class="doc-links">
+          <!-- UPDATE THESE LINKS AFTER UPLOADING TO GITHUB -->
+          <a href="./docs/google-ads-ai-documentation.pdf" class="doc-link" target="_blank">Technical Documentation</a>
+          <a href="./docs/google-ads-architecture.pdf" class="doc-link" target="_blank">Architecture Diagram</a>
+        </div>
       </div>
     </div>
 
   </div>
 </section>
 
-<!-- EXPERIENCE -->
+<!-- EXPERIENCE - UPDATED WITH YOUR ACTUAL HISTORY -->
 <section id="experience" class="exp-wrap">
   <div class="sec-header">
     <span class="sec-tag">// 04</span><div class="sec-line"></div><span class="sec-tag">Experience</span>
   </div>
   <div class="exp-timeline">
+    
     <div class="exp-item current">
-      <div class="exp-date">Jan 2026 — Present · 2.5 months</div>
+      <div class="exp-date">Jan 2026 — Present · 3 months</div>
       <div class="exp-role">AI Automation Engineer</div>
       <div class="exp-co">Standard Roofs, Erode</div>
       <div class="exp-note">⚡ 2 Production Systems Delivered</div>
-      <div class="exp-desc">Joined as the company's first AI Engineer. Within 2.5 months, independently designed and deployed two live AI automation systems — a Zoho CRM quoting engine and an AI-powered Google Ads analytics pipeline. Both systems are running in production today with zero manual intervention.</div>
+      <div class="exp-desc">Joined as the company's first AI Engineer. Within 3 months, independently designed and deployed two live AI automation systems — a Zoho CRM quoting engine and an AI-powered Google Ads analytics pipeline. Both systems are running in production today with zero manual intervention.</div>
     </div>
+
+    <div class="exp-item">
+      <div class="exp-date">2024 — 6 months</div>
+      <div class="exp-role">SDE Trainee Intern</div>
+      <div class="exp-co">Mancicode, Salem</div>
+      <div class="exp-desc">Software Development Engineer trainee focused on full-stack development and automation tools. Gained hands-on experience in building scalable applications and API integrations.</div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">2023 — 6 months</div>
+      <div class="exp-role">Product Support Engineer</div>
+      <div class="exp-co">Sixth Force Solution, Chennai</div>
+      <div class="exp-desc">Provided technical support for enterprise products, troubleshooting complex issues and maintaining client relationships. Developed deep understanding of product architecture and customer pain points.</div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">2023 — 6 months</div>
+      <div class="exp-role">Associate Researcher Intern</div>
+      <div class="exp-co">Imatiz, Bangalore</div>
+      <div class="exp-desc">Research internship focused on emerging technologies and automation solutions. Conducted market research, technology analysis, and contributed to product development strategies.</div>
+    </div>
+
     <div class="exp-item">
       <div class="exp-date">2018 — 2022</div>
       <div class="exp-role">B.E. Electronics & Communication Engineering</div>
-      <div class="exp-co">Tamil Nadu</div>
-      <div class="exp-desc">Completed undergraduate degree in ECE, building a foundation in electronics, signal systems, and engineering problem-solving that now underpins systems thinking in automation design.</div>
+      <div class="exp-co">Anna University, Tamil Nadu</div>
+      <div class="exp-desc">Completed undergraduate degree in ECE with focus on embedded systems and signal processing. Built foundation in electronics, programming, and engineering problem-solving.</div>
     </div>
+
   </div>
 </section>
 
-<!-- CONTACT -->
+<!-- CONTACT - UPDATED WITH YOUR DETAILS -->
 <section id="contact">
   <div class="sec-header">
     <span class="sec-tag">// 05</span><div class="sec-line"></div><span class="sec-tag">Get In Touch</span>
@@ -478,8 +448,9 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
       <h2>Let's Build Something Smarter</h2>
       <p>If your business has manual processes eating time and money, I can help you identify them and replace them with AI-powered automation. Let's talk.</p>
       <div class="contact-links">
-        <a href="mailto:your@email.com" class="c-link">📧 &nbsp;your@email.com</a>
-        <a href="https://linkedin.com/in/srimanikandan" target="_blank" class="c-link">💼 &nbsp;linkedin.com/in/srimanikandan</a>
+        <a href="mailto:ksrimani46@gmail.com" class="c-link">📧 &nbsp;ksrimani46@gmail.com</a>
+        <a href="https://www.linkedin.com/in/srimanikandan-k-9a741620a" target="_blank" class="c-link">💼 &nbsp;linkedin.com/in/srimanikandan-k</a>
+        <a href="https://github.com/srimanikandan" target="_blank" class="c-link">🐙 &nbsp;github.com/srimanikandan</a>
         <div class="c-link">📍 &nbsp;Erode, Tamil Nadu, India</div>
       </div>
     </div>
@@ -487,7 +458,7 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
       <div><label class="f-lbl">Name</label><input type="text" class="f-inp" placeholder="Your name"></div>
       <div><label class="f-lbl">Email</label><input type="email" class="f-inp" placeholder="your@email.com"></div>
       <div><label class="f-lbl">Message</label><textarea class="f-inp" placeholder="Tell me about your automation challenge..."></textarea></div>
-      <button class="f-btn">Send Message →</button>
+      <button class="f-btn" onclick="window.location.href='mailto:ksrimani46@gmail.com?subject=Portfolio Inquiry'">Send Message →</button>
     </div>
   </div>
 </section>
@@ -616,16 +587,24 @@ footer{position:relative;z-index:2;padding:28px 60px;border-top:1px solid var(--
 </div>
 
 <script>
-// ── CURSOR ──
+// ── CURSOR ── FIXED: Always visible and follows mouse everywhere
 const cur = document.getElementById('cur');
 const ring = document.getElementById('cur-ring');
-let mx = -100, my = -100, rx = -100, ry = -100;
+let mx = window.innerWidth/2, my = window.innerHeight/2, rx = mx, ry = my;
+
+// Initialize cursor position to center
+cur.style.left = mx + 'px';
+cur.style.top = my + 'px';
+ring.style.left = rx + 'px';
+ring.style.top = ry + 'px';
 
 document.addEventListener('mousemove', function(e) {
   mx = e.clientX;
   my = e.clientY;
   cur.style.left = mx + 'px';
   cur.style.top = my + 'px';
+  cur.style.opacity = '1';
+  ring.style.opacity = '1';
 });
 
 (function loopRing() {
@@ -637,17 +616,21 @@ document.addEventListener('mousemove', function(e) {
 })();
 
 document.addEventListener('mouseover', function(e) {
-  var t = e.target.closest('a, button, .skill-card, .proj-card, .sdot');
+  var t = e.target.closest('a, button, .skill-card, .proj-card, .sdot, .view-btn, .doc-link, .c-link');
   if (t) {
     cur.style.width = '18px';
     cur.style.height = '18px';
+    cur.style.background = 'var(--green)';
     ring.style.width = '52px';
     ring.style.height = '52px';
+    ring.style.borderColor = 'rgba(0,255,179,.5)';
   } else {
     cur.style.width = '12px';
     cur.style.height = '12px';
+    cur.style.background = 'var(--cyan)';
     ring.style.width = '38px';
     ring.style.height = '38px';
+    ring.style.borderColor = 'rgba(0,200,255,.5)';
   }
 });
 
@@ -691,10 +674,11 @@ document.querySelectorAll('.exp-item').forEach(function(item, i) {
   }, { threshold: 0.2 }).observe(item);
 });
 
-// ── MODALS ──
+// ── MODALS ── FIXED: Proper open/close functionality
 function openModal(id) {
   var m = document.getElementById(id);
   if (!m) return;
+  m.classList.add('open');
   m.style.display = 'flex';
   document.body.style.overflow = 'hidden';
 }
@@ -702,14 +686,31 @@ function openModal(id) {
 function closeModal(id) {
   var m = document.getElementById(id);
   if (!m) return;
+  m.classList.remove('open');
   m.style.display = 'none';
   document.body.style.overflow = '';
 }
 
-document.getElementById('openM1').addEventListener('click', function() { openModal('modal1'); });
-document.getElementById('openM2').addEventListener('click', function() { openModal('modal2'); });
-document.getElementById('closeM1').addEventListener('click', function() { closeModal('modal1'); });
-document.getElementById('closeM2').addEventListener('click', function() { closeModal('modal2'); });
+document.getElementById('openM1').addEventListener('click', function(e) { 
+  e.preventDefault();
+  e.stopPropagation();
+  openModal('modal1'); 
+});
+document.getElementById('openM2').addEventListener('click', function(e) { 
+  e.preventDefault();
+  e.stopPropagation();
+  openModal('modal2'); 
+});
+document.getElementById('closeM1').addEventListener('click', function(e) { 
+  e.preventDefault();
+  e.stopPropagation();
+  closeModal('modal1'); 
+});
+document.getElementById('closeM2').addEventListener('click', function(e) { 
+  e.preventDefault();
+  e.stopPropagation();
+  closeModal('modal2'); 
+});
 
 document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
   overlay.addEventListener('click', function(e) {
