@@ -1,603 +1,374 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Srimanikandan K | AI Systems Engineer</title>
-
-    <meta name="description"
-        content="AI Systems Engineer building AI Agents, Memory Platforms and Business Automation Systems.">
-
-    <link rel="stylesheet" href="style.css">
-
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Srimanikandan K — AI Engineer</title>
+  <meta name="description" content="AI Systems Engineer building intelligent business automation, AI Agents, and scalable CRM systems." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-    <div class="cursor-glow"></div>
+  <!-- NOISE OVERLAY -->
+  <div class="noise"></div>
 
-    <nav class="navbar">
-        <div class="logo">SK</div>
+  <!-- CUSTOM CURSOR -->
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-trail" id="cursorTrail"></div>
 
-        <ul class="nav-links">
-            <li><a href="#projects">Projects</a></li>
-            <li><a href="#architecture">Architecture</a></li>
-            <li><a href="#experience">Experience</a></li>
-            <li><a href="#contact">Contact</a></li>
-        </ul>
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <a class="nav-logo" href="#">SK<span class="dot">.</span></a>
+    <ul class="nav-links">
+      <li><a href="#work">Work</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+    <a href="Srimanikandan_Resume_Professional.pdf" download class="nav-cta">
+      <span>Resume</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <span></span><span></span>
+    </button>
+  </nav>
 
-        <a href="resume.pdf" class="resume-btn" download>
-            Resume
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobileMenu">
+    <ul>
+      <li><a href="#work" class="mobile-link">Work</a></li>
+      <li><a href="#experience" class="mobile-link">Experience</a></li>
+      <li><a href="#about" class="mobile-link">About</a></li>
+      <li><a href="#contact" class="mobile-link">Contact</a></li>
+    </ul>
+  </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="grid-lines"></div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow reveal-up">
+        <span class="dot-pulse"></span>
+        Available for opportunities
+      </div>
+      <h1 class="hero-name reveal-up" style="animation-delay:.1s">
+        Srimani<br /><em>kandan</em>
+      </h1>
+      <div class="hero-title-line reveal-up" style="animation-delay:.2s">
+        <div class="title-scroll-wrap">
+          <span>AI Engineer&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+          <span>CRM Architect&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+          <span>Automation Builder&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+          <span>Frontend Dev&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+          <span>AI Engineer&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+          <span>CRM Architect&nbsp;&nbsp;/&nbsp;&nbsp;</span>
+        </div>
+      </div>
+      <p class="hero-desc reveal-up" style="animation-delay:.3s">
+        Building intelligent systems that turn manual workflows into zero-touch automation — from CRM engines and AI auditors to memory platforms and production-grade web apps.
+      </p>
+      <div class="hero-actions reveal-up" style="animation-delay:.4s">
+        <a href="#work" class="btn-primary">
+          View Work
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 13L13 3M13 3H6M13 3V10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-    </nav>
-
-    <!-- HERO -->
-
-   /* =========================
- HERO V3
-========================= */
-
-.hero-v3{
-
-    min-height:100vh;
-
-    display:flex;
-    align-items:center;
-
-    padding:0 8%;
-
-    position:relative;
-
-    overflow:hidden;
-}
-
-.hero-grid{
-
-    display:grid;
-
-    grid-template-columns:1.2fr 1fr;
-
-    gap:80px;
-
-    width:100%;
-
-    position:relative;
-    z-index:2;
-}
-
-.hero-badge{
-
-    display:inline-flex;
-
-    padding:12px 18px;
-
-    border-radius:999px;
-
-    background:rgba(255,255,255,.05);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    color:#60a5fa;
-
-    margin-bottom:30px;
-}
-
-.hero-title{
-
-    font-size:5.5rem;
-
-    line-height:1.05;
-
-    font-weight:900;
-
-    margin-bottom:25px;
-}
-
-.gradient-text{
-
-    background:linear-gradient(
-        90deg,
-        #8b5cf6,
-        #06b6d4
-    );
-
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
-
-.hero-description{
-
-    max-width:700px;
-
-    color:#94a3b8;
-
-    line-height:1.9;
-
-    font-size:1.1rem;
-}
-
-.hero-actions{
-
-    display:flex;
-
-    gap:20px;
-
-    margin-top:35px;
-}
-
-.btn-primary{
-
-    padding:16px 28px;
-
-    border-radius:14px;
-
-    text-decoration:none;
-
-    color:white;
-
-    background:linear-gradient(
-        90deg,
-        #7c3aed,
-        #06b6d4
-    );
-}
-
-.btn-secondary{
-
-    padding:16px 28px;
-
-    border-radius:14px;
-
-    border:1px solid rgba(255,255,255,.08);
-
-    text-decoration:none;
-
-    color:white;
-}
-
-.hero-socials{
-
-    display:flex;
-
-    gap:24px;
-
-    margin-top:30px;
-}
-
-.hero-socials a{
-
-    color:#94a3b8;
-
-    text-decoration:none;
-}
-
-.hero-socials a:hover{
-
-    color:white;
-}
-
-.glass-card{
-
-    backdrop-filter:blur(20px);
-
-    background:rgba(255,255,255,.04);
-
-    border:1px solid rgba(255,255,255,.08);
-
-    border-radius:24px;
-
-    padding:30px;
-
-    margin-bottom:25px;
-}
-
-.card-title{
-
-    font-size:.85rem;
-
-    letter-spacing:2px;
-
-    color:#60a5fa;
-
-    margin-bottom:20px;
-}
-
-.flow{
-
-    display:flex;
-
-    flex-direction:column;
-
-    gap:12px;
-}
-
-.flow span{
-
-    color:#64748b;
-}
-
-.highlight{
-
-    color:#22c55e;
-}
-
-.aurora{
-
-    position:absolute;
-
-    border-radius:50%;
-
-    filter:blur(120px);
-
-    opacity:.25;
-}
-
-.aurora-1{
-
-    width:450px;
-    height:450px;
-
-    background:#7c3aed;
-
-    top:-100px;
-    left:-100px;
-
-    animation:float1 12s infinite ease-in-out;
-}
-
-.aurora-2{
-
-    width:350px;
-    height:350px;
-
-    background:#06b6d4;
-
-    right:-100px;
-    top:20%;
-}
-
-.aurora-3{
-
-    width:300px;
-    height:300px;
-
-    background:#22c55e;
-
-    bottom:-100px;
-    left:35%;
-}
-
-@keyframes float1{
-
-    0%{
-        transform:translateY(0);
-    }
-
-    50%{
-        transform:translateY(40px);
-    }
-
-    100%{
-        transform:translateY(0);
-    }
-}
-
-@media(max-width:1000px){
-
-    .hero-grid{
-
-        grid-template-columns:1fr;
-    }
-
-    .hero-title{
-
-        font-size:3.5rem;
-    }
-}
-    <!-- METRICS -->
-
-    <section class="metrics">
-
-        <div class="metric-card">
-            <h2>4+</h2>
-            <p>Production Systems</p>
+        <a href="#contact" class="btn-ghost">Get in touch</a>
+      </div>
+    </div>
+    <div class="hero-stats reveal-up" style="animation-delay:.5s">
+      <div class="stat">
+        <span class="stat-num" data-count="4">0</span>
+        <span class="stat-label">Production Systems</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" data-count="30">0</span><span class="stat-plus">+</span>
+        <span class="stat-label">CRM Automations</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num" data-count="285">0</span><span class="stat-plus">+</span>
+        <span class="stat-label">Keywords Audited Daily</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">₹4,952</span>
+        <span class="stat-label">Waste Identified</span>
+      </div>
+    </div>
+    <a href="#work" class="scroll-indicator" aria-label="Scroll down">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M12 5v14M5 12l7 7 7-7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+  </section>
+
+  <!-- WORK / PROJECTS -->
+  <section class="section work" id="work">
+    <div class="section-header">
+      <span class="section-label">Featured Work</span>
+      <h2 class="section-title">Systems <em>Built</em></h2>
+    </div>
+
+    <!-- FLAGSHIP -->
+    <div class="project project--flagship reveal-up">
+      <div class="project-meta">
+        <span class="project-index">01</span>
+        <span class="project-tag">Flagship</span>
+      </div>
+      <div class="project-body">
+        <h3 class="project-name">AI Memory Platform</h3>
+        <p class="project-desc">Cross-model memory infrastructure connecting Claude, ChatGPT, and Gemini through a unified FastAPI + MCP layer. Enables persistent workspace knowledge across AI assistants, GitHub repositories, and cloud deployments — a true long-term memory backbone for AI workflows.</p>
+        <div class="project-arch">
+          <div class="arch-flow">
+            <div class="arch-node">Claude / ChatGPT / Gemini</div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-node arch-highlight">MCP Memory Layer</div>
+            <div class="arch-arrow">↓</div>
+            <div class="arch-node">FastAPI · Render · GitHub</div>
+          </div>
         </div>
-
-        <div class="metric-card">
-            <h2>30+</h2>
-            <p>CRM Automations</p>
+        <div class="project-footer">
+          <div class="tech-pills">
+            <span>FastAPI</span><span>MCP</span><span>Claude</span><span>Render</span><span>GitHub</span>
+          </div>
+          <a href="https://github.com/Srimani26/ai-memory-mcp" target="_blank" class="project-link">
+            View Repo
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
         </div>
+      </div>
+    </div>
 
-        <div class="metric-card">
-            <h2>285+</h2>
-            <p>Keywords Audited Daily</p>
+    <!-- PROJECT GRID -->
+    <div class="project-grid">
+
+      <div class="project-card reveal-up" style="animation-delay:.05s">
+        <div class="card-index">02</div>
+        <h3>Zoho CRM Quotation Automation</h3>
+        <p>End-to-end 4-layer automation (Workflows → Deluge → Client Script → Writer API). Reduced quote generation from multi-step manual process to under 1 minute. Zero errors. 30+ automated fields, 14+ workflows.</p>
+        <div class="card-impact">
+          <span class="impact-badge">⚡ &lt;1 min quote generation</span>
+          <span class="impact-badge">95% production-ready</span>
         </div>
-
-        <div class="metric-card">
-            <h2>₹4,952</h2>
-            <p>Waste Identified</p>
+        <div class="tech-pills small">
+          <span>Zoho CRM</span><span>Deluge</span><span>Cloudinary</span><span>Writer API</span>
         </div>
+      </div>
 
-    </section>
-
-    <!-- PROJECTS -->
-
-    <section id="projects" class="projects">
-
-        <div class="section-title">
-            Featured Systems
+      <div class="project-card reveal-up" style="animation-delay:.1s">
+        <div class="card-index">03</div>
+        <h3>Google Ads Intelligence Engine</h3>
+        <p>Fully automated AI audit pipeline — pulls 285+ keyword queries at 6 AM IST, runs AI analysis across 7-day trends, delivers color-coded STOP/SCALE/FIX HTML email by 7 AM. Dual API key architecture with retry logic and zero monthly cost.</p>
+        <div class="card-impact">
+          <span class="impact-badge green">₹4,952 waste flagged in 8 days</span>
         </div>
+        <div class="tech-pills small">
+          <span>Google Ads Script</span><span>Gemini</span><span>Apps Script</span><span>Gmail API</span>
+        </div>
+      </div>
 
-        <!-- MEMORY -->
+      <div class="project-card reveal-up" style="animation-delay:.15s">
+        <div class="card-index">04</div>
+        <h3>ARIA AI Assistant</h3>
+        <p>Gemini-powered personal AI engineering assistant with persistent memory, full chat history, cloud deployment, and knowledge retrieval. Built to serve as a reliable second brain for engineering workflows.</p>
+        <div class="tech-pills small">
+          <span>Gemini</span><span>Streamlit</span><span>Supabase</span><span>Python</span>
+        </div>
+      </div>
 
-        <div class="project-card featured">
+      <div class="project-card reveal-up" style="animation-delay:.2s">
+        <div class="card-index">05</div>
+        <h3>MonsterFoods — Live Food Ordering</h3>
+        <p>Production-deployed real-time food ordering web application. Component-based Vue.js architecture with state management, performance optimization, and responsive UI across all devices.</p>
+        <div class="tech-pills small">
+          <span>Vue.js</span><span>JavaScript</span><span>CSS</span><span>REST API</span>
+        </div>
+      </div>
 
-            <div class="project-info">
+    </div>
+  </section>
 
-                <span class="project-label">
-                    FLAGSHIP PROJECT
-                </span>
+  <!-- EXPERIENCE -->
+  <section class="section experience" id="experience">
+    <div class="section-header">
+      <span class="section-label">Career</span>
+      <h2 class="section-title">Where I've <em>Worked</em></h2>
+    </div>
 
-                <h2>
-                    AI Memory Platform
-                </h2>
+    <div class="timeline">
 
-                <p>
-                    Cross-model memory infrastructure connecting AI assistants,
-                    GitHub repositories and workspace knowledge through MCP,
-                    FastAPI and cloud deployment.
-                </p>
-
-                <div class="tech-stack">
-
-                    <span>FastAPI</span>
-                    <span>MCP</span>
-                    <span>Claude</span>
-                    <span>Render</span>
-                    <span>GitHub</span>
-
-                </div>
-
+      <div class="timeline-item reveal-left">
+        <div class="tl-marker">
+          <div class="tl-dot active"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <div>
+              <h3>AI Engineer</h3>
+              <p class="tl-company">Standard Roofs — Erode, Tamil Nadu</p>
             </div>
-
+            <span class="tl-date">Jan 2026 — Present</span>
+          </div>
+          <ul class="tl-bullets">
+            <li>Architected full Zoho CRM Quotation Automation — 4-layer stack reducing quote time to under 1 minute</li>
+            <li>Automated 30+ CRM fields across 14+ workflow rules including serial number generation, image sync via Cloudinary, PDF generation via Zoho Writer API</li>
+            <li>Built and deployed AI-Powered Google Ads Auditor v5.0 (Live) — 285+ queries analyzed daily, ₹4,952 waste identified in 8 days</li>
+            <li>Engineered dual AI API key architecture with retry logic and 503 backoff for zero-cost, production-grade reliability</li>
+          </ul>
         </div>
+      </div>
 
-        <!-- ARIA -->
-
-        <div class="project-card">
-
-            <div class="project-info">
-
-                <h2>
-                    ARIA AI Assistant
-                </h2>
-
-                <p>
-                    Gemini-powered personal AI engineering assistant featuring
-                    persistent memory, chat history, cloud deployment and
-                    knowledge retrieval.
-                </p>
-
-                <div class="tech-stack">
-
-                    <span>Gemini</span>
-                    <span>Streamlit</span>
-                    <span>Supabase</span>
-                    <span>Python</span>
-
-                </div>
-
+      <div class="timeline-item reveal-left" style="animation-delay:.1s">
+        <div class="tl-marker">
+          <div class="tl-dot"></div>
+          <div class="tl-line"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <div>
+              <h3>Frontend Web Developer</h3>
+              <p class="tl-company">Macincode Technologies — Clops AI, Salem</p>
             </div>
-
+            <span class="tl-date">Apr 2025 — Aug 2025</span>
+          </div>
+          <ul class="tl-bullets">
+            <li>Built and deployed MonsterFoods — a live real-time food ordering application using Vue.js</li>
+            <li>Developed responsive UIs with React.js and Vue.js; applied component architecture and performance optimization</li>
+          </ul>
         </div>
+      </div>
 
-        <!-- ADS -->
-
-        <div class="project-card">
-
-            <div class="project-info">
-
-                <h2>
-                    Google Ads Intelligence Engine
-                </h2>
-
-                <p>
-                    AI-powered audit system that analyzes campaign performance,
-                    detects waste and generates STOP / SCALE / FIX decisions.
-                </p>
-
-                <div class="tech-stack">
-
-                    <span>Google Ads</span>
-                    <span>Gemini</span>
-                    <span>Apps Script</span>
-
-                </div>
-
+      <div class="timeline-item reveal-left" style="animation-delay:.2s">
+        <div class="tl-marker">
+          <div class="tl-dot"></div>
+        </div>
+        <div class="tl-content">
+          <div class="tl-header">
+            <div>
+              <h3>Product Support Engineer</h3>
+              <p class="tl-company">Sixth Force Solution PVT LTD — Chennai</p>
             </div>
-
+            <span class="tl-date">May 2023 — Nov 2023</span>
+          </div>
+          <ul class="tl-bullets">
+            <li>Reduced average response time by 20% through process documentation and workflow improvements</li>
+            <li>Delivered customer training sessions improving product adoption and satisfaction benchmarks</li>
+          </ul>
         </div>
+      </div>
 
-        <!-- ZOHO -->
+    </div>
+  </section>
 
-        <div class="project-card">
+  <!-- ABOUT / SKILLS -->
+  <section class="section about" id="about">
+    <div class="section-header">
+      <span class="section-label">About Me</span>
+      <h2 class="section-title">The <em>Stack</em></h2>
+    </div>
 
-            <div class="project-info">
-
-                <h2>
-                    Enterprise Quote Automation
-                </h2>
-
-                <p>
-                    End-to-end quotation workflow automation built with Zoho
-                    CRM, Deluge scripting and document generation.
-                </p>
-
-                <div class="tech-stack">
-
-                    <span>Zoho CRM</span>
-                    <span>Deluge</span>
-                    <span>Cloudinary</span>
-                    <span>Writer API</span>
-
-                </div>
-
-            </div>
-
+    <div class="about-grid">
+      <div class="about-text reveal-left">
+        <p class="about-lead">I build systems that think, automate, and scale — bridging the gap between raw business needs and intelligent technical solutions.</p>
+        <p>Currently serving as AI Engineer at Standard Roofs, I design end-to-end automation pipelines that eliminate manual work entirely. My work spans CRM orchestration, AI-powered analytics engines, and full-stack web development.</p>
+        <p>I studied Electronics & Communication Engineering at Nandha College of Technology (CGPA 7.6) and hold certifications in Java & Python programming. Outside of code: photography and T-shirt design.</p>
+        <div class="github-links">
+          <a href="https://github.com/Srimani26/ai-agent" target="_blank" class="repo-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            AI Agent
+          </a>
+          <a href="https://github.com/Srimani26/ai-memory-mcp" target="_blank" class="repo-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            AI Memory MCP
+          </a>
+          <a href="https://github.com/Srimani26/AI-workspace" target="_blank" class="repo-pill">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+            AI Workspace
+          </a>
         </div>
+      </div>
 
-    </section>
-
-    <!-- ARCHITECTURE -->
-
-    <section id="architecture" class="architecture">
-
-        <div class="section-title">
-            Architecture Showcase
+      <div class="skills-grid reveal-up" style="animation-delay:.1s">
+        <div class="skill-group">
+          <h4>Languages</h4>
+          <div class="skill-list">
+            <span>Python</span><span>JavaScript</span><span>Java</span>
+          </div>
         </div>
-
-        <div class="architecture-grid">
-
-            <div class="arch-card">
-
-                <h3>AI Memory Platform</h3>
-
-<pre>
-Claude
-ChatGPT
-Gemini
-    ↓
-Memory Layer
-    ↓
-AI Workspace
-    ↓
-GitHub
-</pre>
-
-            </div>
-
-            <div class="arch-card">
-
-                <h3>ARIA Assistant</h3>
-
-<pre>
-User
- ↓
-ARIA
- ↓
-Gemini
- ↓
-Memory
- ↓
-Knowledge
-</pre>
-
-            </div>
-
+        <div class="skill-group">
+          <h4>Frontend</h4>
+          <div class="skill-list">
+            <span>React.js</span><span>Vue.js</span><span>HTML/CSS</span>
+          </div>
         </div>
-
-    </section>
-
-    <!-- GITHUB -->
-
-    <section class="github">
-
-        <div class="section-title">
-            GitHub Ecosystem
+        <div class="skill-group">
+          <h4>Automation</h4>
+          <div class="skill-list">
+            <span>Zoho Deluge</span><span>Google Apps Script</span><span>Workflow Rules</span><span>Client Scripts</span>
+          </div>
         </div>
-
-        <div class="repo-grid">
-
-            <a class="repo-card"
-                href="https://github.com/Srimani26/ai-agent"
-                target="_blank">
-                AI Agent
-            </a>
-
-            <a class="repo-card"
-                href="https://github.com/Srimani26/ai-memory-mcp"
-                target="_blank">
-                AI Memory MCP
-            </a>
-
-            <a class="repo-card"
-                href="https://github.com/Srimani26/AI-workspace"
-                target="_blank">
-                AI Workspace
-            </a>
-
+        <div class="skill-group">
+          <h4>AI & APIs</h4>
+          <div class="skill-list">
+            <span>Claude</span><span>Gemini</span><span>FastAPI</span><span>MCP</span><span>Zoho Writer API</span>
+          </div>
         </div>
-
-    </section>
-
-    <!-- EXPERIENCE -->
-
-    <section id="experience" class="experience">
-
-        <div class="section-title">
-            Experience
+        <div class="skill-group">
+          <h4>Platforms</h4>
+          <div class="skill-list">
+            <span>Zoho CRM</span><span>Google Ads</span><span>Cloudinary</span><span>Supabase</span><span>Render</span>
+          </div>
         </div>
+      </div>
+    </div>
+  </section>
 
-        <div class="timeline">
+  <!-- CONTACT -->
+  <section class="section contact" id="contact">
+    <div class="contact-inner reveal-up">
+      <span class="section-label">Contact</span>
+      <h2 class="contact-heading">Let's build something <em>remarkable</em></h2>
+      <p class="contact-sub">Open to AI engineering roles, automation consulting, and ambitious system design challenges. Based in Erode, Tamil Nadu — available remotely.</p>
+      <div class="contact-links">
+        <a href="mailto:srimanikandanece2000@gmail.com" class="contact-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="4" width="20" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/><path d="M2 8l10 6 10-6" stroke="currentColor" stroke-width="1.5"/></svg>
+          <div>
+            <span class="contact-card-label">Email</span>
+            <span class="contact-card-value">srimanikandanece2000@gmail.com</span>
+          </div>
+        </a>
+        <a href="https://www.linkedin.com/in/srimanikandan-k-9a741620a" target="_blank" class="contact-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><rect x="2" y="2" width="20" height="20" rx="4" stroke="currentColor" stroke-width="1.5"/><path d="M7 10v7M7 7v.01M12 17v-4c0-1.1.9-2 2-2s2 .9 2 2v4M12 13v4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <div>
+            <span class="contact-card-label">LinkedIn</span>
+            <span class="contact-card-value">srimanikandan-k</span>
+          </div>
+        </a>
+        <a href="https://github.com/Srimani26" target="_blank" class="contact-card">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+          <div>
+            <span class="contact-card-label">GitHub</span>
+            <span class="contact-card-value">Srimani26</span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
 
-            <div class="timeline-item">
-                <h3>AI Engineer</h3>
-                <p>Standard Roofs</p>
-            </div>
+  <!-- FOOTER -->
+  <footer class="footer">
+    <span>© 2026 Srimanikandan K</span>
+    <span>Built with precision</span>
+  </footer>
 
-            <div class="timeline-item">
-                <h3>Frontend Developer</h3>
-                <p>Clops AI</p>
-            </div>
-
-            <div class="timeline-item">
-                <h3>Product Support Engineer</h3>
-                <p>Sixth Force</p>
-            </div>
-
-        </div>
-
-    </section>
-
-    <!-- CONTACT -->
-
-    <section id="contact" class="contact">
-
-        <div class="section-title">
-            Let's Build Something
-        </div>
-
-        <h2>
-            Open to AI Engineering opportunities,
-            automation projects and system design work.
-        </h2>
-
-        <div class="contact-links">
-
-            <a href="mailto:srimanikandanece2000@gmail.com">
-                Email
-            </a>
-
-            <a href="https://github.com/Srimani26"
-                target="_blank">
-                GitHub
-            </a>
-
-            <a href="https://www.linkedin.com/in/srimanikandan-k-9a741620a"
-                target="_blank">
-                LinkedIn
-            </a>
-
-        </div>
-
-    </section>
-
-    <script src="main.js"></script>
-
+  <script src="main.js"></script>
 </body>
 </html>
