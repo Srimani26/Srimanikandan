@@ -1,343 +1,182 @@
-// ===============================
-// CURSOR GLOW
-// ===============================
+/* ==========================================
+   MAIN.JS — Portfolio Interactions
+========================================== */
 
-const glow = document.querySelector(".cursor-glow");
+/* ---- CUSTOM CURSOR ---- */
+const cursor = document.getElementById('cursor');
+const cursorTrail = document.getElementById('cursorTrail');
 
-document.addEventListener("mousemove", (e) => {
+let mouseX = 0, mouseY = 0;
+let trailX = 0, trailY = 0;
 
-    glow.style.left = e.clientX + "px";
-    glow.style.top = e.clientY + "px";
-
+document.addEventListener('mousemove', e => {
+  mouseX = e.clientX;
+  mouseY = e.clientY;
+  cursor.style.left = mouseX + 'px';
+  cursor.style.top = mouseY + 'px';
 });
 
-// ===============================
-// GSAP CONFIG
-// ===============================
+function animateTrail() {
+  trailX += (mouseX - trailX) * 0.12;
+  trailY += (mouseY - trailY) * 0.12;
+  cursorTrail.style.left = trailX + 'px';
+  cursorTrail.style.top = trailY + 'px';
+  requestAnimationFrame(animateTrail);
+}
+animateTrail();
 
-gsap.registerPlugin(ScrollTrigger);
-
-// ===============================
-// HERO ANIMATION
-// ===============================
-
-gsap.from(".tag", {
-    y: 40,
-    opacity: 0,
-    duration: 1,
-    ease: "power3.out"
+// Scale cursor on interactive elements
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => {
+    cursor.style.width = '20px';
+    cursor.style.height = '20px';
+    cursorTrail.style.width = '50px';
+    cursorTrail.style.height = '50px';
+  });
+  el.addEventListener('mouseleave', () => {
+    cursor.style.width = '10px';
+    cursor.style.height = '10px';
+    cursorTrail.style.width = '36px';
+    cursorTrail.style.height = '36px';
+  });
 });
 
-gsap.from(".hero h1", {
-    y: 60,
-    opacity: 0,
-    duration: 1.2,
-    delay: 0.2,
-    ease: "power3.out"
+/* ---- NAVBAR SCROLL ---- */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  if (window.scrollY > 60) {
+    nav.classList.add('scrolled');
+  } else {
+    nav.classList.remove('scrolled');
+  }
 });
 
-gsap.from(".hero p", {
-    y: 40,
-    opacity: 0,
-    duration: 1,
-    delay: 0.5
+/* ---- MOBILE MENU ---- */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('open');
+  mobileMenu.classList.toggle('open');
 });
 
-gsap.from(".hero-buttons", {
-    y: 30,
-    opacity: 0,
-    duration: 1,
-    delay: 0.8
+document.querySelectorAll('.mobile-link').forEach(link => {
+  link.addEventListener('click', () => {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+  });
 });
 
-gsap.from(".social-links", {
-    y: 20,
-    opacity: 0,
-    duration: 1,
-    delay: 1
+/* ---- SCROLL REVEAL ---- */
+const revealEls = document.querySelectorAll('.reveal-up, .reveal-left');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
+    }
+  });
+}, {
+  threshold: 0.12,
+  rootMargin: '0px 0px -40px 0px'
 });
 
-// ===============================
-// METRIC CARDS
-// ===============================
+revealEls.forEach(el => observer.observe(el));
 
-gsap.utils.toArray(".metric-card").forEach((card) => {
+/* ---- COUNTER ANIMATION ---- */
+function animateCounter(el) {
+  const target = parseInt(el.dataset.count);
+  if (!target) return;
 
-    gsap.from(card, {
+  let current = 0;
+  const duration = 1800;
+  const steps = 60;
+  const increment = target / steps;
+  const interval = duration / steps;
 
-        scrollTrigger: {
-            trigger: card,
-            start: "top 85%"
-        },
+  const timer = setInterval(() => {
+    current += increment;
+    if (current >= target) {
+      el.textContent = target;
+      clearInterval(timer);
+    } else {
+      el.textContent = Math.floor(current);
+    }
+  }, interval);
+}
 
-        y: 50,
-        opacity: 0,
-        duration: 1
+const counterObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      animateCounter(entry.target);
+      counterObserver.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.5 });
 
-    });
-
+document.querySelectorAll('.stat-num[data-count]').forEach(el => {
+  counterObserver.observe(el);
 });
 
-// ===============================
-// PROJECTS
-// ===============================
-
-gsap.utils.toArray(".project-card").forEach((card) => {
-
-    gsap.from(card, {
-
-        scrollTrigger: {
-            trigger: card,
-            start: "top 85%"
-        },
-
-        y: 80,
-        opacity: 0,
-        duration: 1.1
-
-    });
-
-});
-
-// ===============================
-// ARCHITECTURE
-// ===============================
-
-gsap.utils.toArray(".arch-card").forEach((card) => {
-
-    gsap.from(card, {
-
-        scrollTrigger: {
-            trigger: card,
-            start: "top 85%"
-        },
-
-        scale: 0.95,
-        opacity: 0,
-        duration: 1
-
-    });
-
-});
-
-// ===============================
-// GITHUB
-// ===============================
-
-gsap.utils.toArray(".repo-card").forEach((card) => {
-
-    gsap.from(card, {
-
-        scrollTrigger: {
-            trigger: card,
-            start: "top 85%"
-        },
-
-        y: 50,
-        opacity: 0,
-        duration: 0.9
-
-    });
-
-});
-
-// ===============================
-// TIMELINE
-// ===============================
-
-gsap.utils.toArray(".timeline-item").forEach((item) => {
-
-    gsap.from(item, {
-
-        scrollTrigger: {
-            trigger: item,
-            start: "top 85%"
-        },
-
-        x: -60,
-        opacity: 0,
-        duration: 1
-
-    });
-
-});
-
-// ===============================
-// CONTACT
-// ===============================
-
-gsap.from(".contact h2", {
-
-    scrollTrigger: {
-        trigger: ".contact",
-        start: "top 75%"
-    },
-
-    y: 40,
-    opacity: 0,
-    duration: 1
-
-});
-
-gsap.from(".contact-links a", {
-
-    scrollTrigger: {
-        trigger: ".contact",
-        start: "top 75%"
-    },
-
-    y: 20,
-    opacity: 0,
-    duration: 1,
-    stagger: 0.15
-
-});
-
-// ===============================
-// PARALLAX HERO
-// ===============================
-
-window.addEventListener("scroll", () => {
-
-    const hero = document.querySelector(".hero");
-
-    const scrollY = window.scrollY;
-
-    hero.style.transform =
-        `translateY(${scrollY * 0.15}px)`;
-
-});
-
-// ===============================
-// NUMBER COUNTER ANIMATION
-// ===============================
-
-const counters = document.querySelectorAll(".metric-card h2");
-
-counters.forEach(counter => {
-
-    const updateCount = () => {
-
-        const targetText = counter.innerText;
-
-        const number = parseInt(
-            targetText.replace(/[^\d]/g, "")
-        );
-
-        if (!number) return;
-
-        let current = 0;
-
-        const increment = number / 80;
-
-        const interval = setInterval(() => {
-
-            current += increment;
-
-            if (current >= number) {
-
-                counter.innerText = targetText;
-
-                clearInterval(interval);
-
-            } else {
-
-                if (targetText.includes("₹")) {
-
-                    counter.innerText =
-                        "₹" + Math.floor(current);
-
-                } else {
-
-                    counter.innerText =
-                        Math.floor(current) + "+";
-
-                }
-
-            }
-
-        }, 20);
-
-    };
-
-    ScrollTrigger.create({
-
-        trigger: counter,
-
-        start: "top 85%",
-
-        once: true,
-
-        onEnter: updateCount
-
-    });
-
-});
-
-// ===============================
-// ACTIVE NAV LINK
-// ===============================
-
-const sections =
-    document.querySelectorAll("section");
-
-const navLinks =
-    document.querySelectorAll(".nav-links a");
-
-window.addEventListener("scroll", () => {
-
-    let current = "";
-
-    sections.forEach(section => {
-
-        const sectionTop =
-            section.offsetTop - 150;
-
-        if (scrollY >= sectionTop) {
-
-            current = section.getAttribute("id");
-
+/* ---- ACTIVE NAV LINKS ---- */
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-links a');
+
+const sectionObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.style.color = '';
+        if (link.getAttribute('href') === `#${id}`) {
+          link.style.color = 'var(--text)';
         }
+      });
+    }
+  });
+}, { threshold: 0.4 });
 
-    });
+sections.forEach(s => sectionObserver.observe(s));
 
-    navLinks.forEach(link => {
-
-        link.classList.remove("active");
-
-        if (
-            link.getAttribute("href")
-            === `#${current}`
-        ) {
-
-            link.classList.add("active");
-
-        }
-
-    });
-
+/* ---- PARALLAX HERO ORBS ---- */
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+  const orb1 = document.querySelector('.orb-1');
+  const orb2 = document.querySelector('.orb-2');
+  if (orb1) orb1.style.transform = `translateY(${scrollY * 0.15}px)`;
+  if (orb2) orb2.style.transform = `translateY(${-scrollY * 0.1}px)`;
 });
 
-// ===============================
-// REVEAL EFFECT
-// ===============================
+/* ---- CARD TILT ON HOVER ---- */
+document.querySelectorAll('.project-card, .project--flagship').forEach(card => {
+  card.addEventListener('mousemove', e => {
+    const rect = card.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+    const rotateX = ((y - centerY) / centerY) * -3;
+    const rotateY = ((x - centerX) / centerX) * 3;
+    card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-4px)`;
+  });
 
-gsap.from(".section-title", {
-
-    scrollTrigger: {
-
-        trigger: ".section-title",
-
-        start: "top 85%"
-
-    },
-
-    y: 40,
-    opacity: 0,
-    duration: 1
-
+  card.addEventListener('mouseleave', () => {
+    card.style.transform = '';
+    card.style.transition = 'transform 0.5s cubic-bezier(.25,.46,.45,.94)';
+    setTimeout(() => { card.style.transition = ''; }, 500);
+  });
 });
 
-console.log(
-    "Portfolio V2 Loaded Successfully 🚀"
-);
+/* ---- SMOOTH SCROLL FOR ALL ANCHOR LINKS ---- */
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+  anchor.addEventListener('click', function(e) {
+    const target = document.querySelector(this.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+
+console.log('%c SK Portfolio 2026 🚀', 'font-size:1.2rem;font-weight:bold;color:#e8ff47;background:#080a0f;padding:8px 16px;border-radius:8px;');
